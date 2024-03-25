@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import App from './Route'
+import App from './App'
 import { AuthProvider } from './providers/AuthProvider'
 import { DataProvider } from './providers/DataProvider'
 

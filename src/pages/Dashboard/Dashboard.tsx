@@ -2,7 +2,7 @@ import Header from "@/components/Dashboard/Header/Header";
 import Sidebar from "@/components/Dashboard/Sidebar/Sidebar";
 import AuthGuard from "@/guards/AuthGuard";
 
-const Index = () => {
+const Dashboard = () => {
 
     return (
 
@@ -19,4 +19,4 @@ const Index = () => {
 
 }
 
-export default Index;
+export default Dashboard;

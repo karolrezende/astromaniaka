@@ -1,5 +1,5 @@
 import './index.css'
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+const StarsLayout = ({ children }: { children: React.ReactNode }) => {
     return (<main className="h-screen w-full overflow-hidden" id='star'>
         <div id="stars"></div>
         <div id="stars2"></div>
@@ -12,4 +12,4 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     );
 }
 
-export default AuthLayout;
+export default StarsLayout;

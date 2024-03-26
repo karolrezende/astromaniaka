@@ -17,7 +17,7 @@ import Popup from "@/components/common/Popup/Popup";
 
 import { LucideIcon, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import AuthLayout from "../AuthLayout";
+import StarsLayout from "@/layout/StarsLayout";
 
 const Register = () => {
   const [message, setMessage] = useState("");
@@ -71,7 +71,7 @@ const Register = () => {
   // }
 
   return (
-    <AuthLayout>
+    <StarsLayout>
       <div className="bg-white w-full mx-6 rounded-3xl lg:w-[40vw] xl:w-[40vw] h-[90h] lg:h-[80vh] flex items-center justify-between p-10 md:p-16 lg:gap-8">
         <div className="w-full flex justify-center flex-col">
           <img
@@ -147,7 +147,7 @@ const Register = () => {
 
         <Popup message={message} setMessage={setMessage} Icon={icon} />
       </div>
-    </AuthLayout>
+    </StarsLayout>
   );
 };
 

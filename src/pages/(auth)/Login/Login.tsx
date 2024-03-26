@@ -12,7 +12,7 @@ import { userLogin } from '@/types/user.types';
 import { userLoginSchema } from '@/schemas/user.schemas';
 import { useAuth } from '@/providers/AuthProvider';
 import { Link } from 'react-router-dom';
-import AuthLayout from '../AuthLayout';
+import StarsLayout from '@/layout/StarsLayout';
 
 
 const Login = () => {
@@ -46,7 +46,7 @@ const Login = () => {
   }
   return (
 
-    <AuthLayout>
+    <StarsLayout>
       <div className='bg-white w-full mx-6 rounded-3xl lg:w-[70vw] xl:w-[60vw] h-[70vh] flex items-center justify-between p-10 md:p-16 lg:gap-8'>
         <div className='w-full flex justify-center flex-col'>
           <img src={slogan} alt='Slogan Astromaniaka' />
@@ -63,7 +63,7 @@ const Login = () => {
           <img src={jupiter} alt="Imagem de júpiter" />
         </div>
       </div>
-    </AuthLayout>
+    </StarsLayout>
 
   );
 }

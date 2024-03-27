@@ -1,9 +1,13 @@
 import Profile from "./Profile/Profile";
 
 const Header = () => {
-    return (<header className="w-full bg-blue-700 mr-4">
+  return (
+    <section className="py-4 px-4 lg:pl-80 fixed w-full">
+      <header className="w-full bg-slate-800 rounded-xl">
         <Profile />
-    </header>);
-}
+      </header>
+    </section>
+  );
+};
 
 export default Header;

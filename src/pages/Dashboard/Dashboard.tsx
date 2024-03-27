@@ -8,7 +8,7 @@ const Dashboard = () => {
 
         <AuthGuard>
             <>
-            <main className="min-h-screen bg-blue-900 min-w-full">
+            <main className="min-h-screen bg-slate-900 min-w-full">
                 <Header/>
                 <Sidebar/>
             </main>

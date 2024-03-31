@@ -17,7 +17,7 @@ import Popup from "@/components/common/Popup/Popup";
 
 import { LucideIcon, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import StarsLayout from "@/layout/StarsLayout";
+import StarsLayout from "@/layout/StarsLayout/StarsLayout";
 
 const Register = () => {
   const [message, setMessage] = useState("");

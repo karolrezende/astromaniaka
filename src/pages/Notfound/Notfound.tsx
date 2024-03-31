@@ -1,4 +1,4 @@
-import StarsLayout from "@/layout/StarsLayout";
+import StarsLayout from "@/layout/StarsLayout/StarsLayout";
 import { Link } from "react-router-dom";
 
 const Notfound = () => {

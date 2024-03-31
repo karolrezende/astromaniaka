@@ -12,7 +12,7 @@ import { userLogin } from '@/types/user.types';
 import { userLoginSchema } from '@/schemas/user.schemas';
 import { useAuth } from '@/providers/AuthProvider';
 import { Link } from 'react-router-dom';
-import StarsLayout from '@/layout/StarsLayout';
+import StarsLayout from '@/layout/StarsLayout/StarsLayout';
 
 
 const Login = () => {

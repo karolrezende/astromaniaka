@@ -4,6 +4,7 @@ import { AlignJustify } from "lucide-react";
 import { useState } from "react";
 import SidebarMobile from "../../Sidebar/SidebarMobile";
 import ProfileMenu from "./ProfileMenu/ProfileMenu";
+import ProfilePic from "../../ProfilePic/ProfilePic";
 
 const Profile = () => {
   const { userData } = useData();
@@ -42,13 +43,9 @@ const Profile = () => {
                 {userData ? userData.access_level : "user"}
               </p>
             </div>
-            <div className="bg-white cursor-pointer min-h-14 min-w-14 rounded-full flex items-center justify-center font-bold text-xl" onClick={()=> openMenu()}>
-              {userData ? (
-                getInitials(userData.name)
-              ) : (
-                <p className="uppercase text-sm">astro</p>
-              )}
-            </div>
+          <div onClick={()=> openMenu()}>
+            <ProfilePic/>
+          </div>
             {
               isOpenMenu && <ProfileMenu/>
             }

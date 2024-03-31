@@ -12,35 +12,33 @@ const DataContext = createContext<DataContextType>({} as DataContextType);
 
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
+    const { token, signout } = useAuth();
+    const [userData, setUserData] = useState<userWithoutPassword | null>(null);
 
-    const {token} = useAuth()
-
-    const [userData,setUserData] = useState<userWithoutPassword|null>(null)
-
-    const data = async() => {
+    const fetchData = async () => {
         try {
-            const data = await baseURL.get<userWithoutPassword>('/users/token', {
+            const response = await baseURL.get<userWithoutPassword>('/users/token', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            })
-            
-            setUserData(data.data)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            return error.response.status
+            });
+            setUserData(response.data);
+        } catch (error) {
+            signout();
         }
-    }
+    };
 
-    useEffect(()=> {
-        data()
-    },[])
+    useEffect(() => {
+        if (token) {
+            fetchData(); 
+        }
+    }, [token]); 
 
     return (
-        <DataContext.Provider value={{userData}}>
+        <DataContext.Provider value={{ userData }}>
             {children}
         </DataContext.Provider>
-    )
+    );
 };
 
 export const useData = () => {

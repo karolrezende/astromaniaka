@@ -1,5 +1,4 @@
 import { useData } from "@/providers/DataProvider";
-import { getInitials } from "@/utils/getInitials";
 import { AlignJustify } from "lucide-react";
 import { useState } from "react";
 import SidebarMobile from "../../Sidebar/SidebarMobile";
@@ -43,7 +42,7 @@ const Profile = () => {
                 {userData ? userData.access_level : "user"}
               </p>
             </div>
-          <div onClick={()=> openMenu()}>
+          <div onClick={()=> openMenu()} className="cursor-pointer">
             <ProfilePic/>
           </div>
             {

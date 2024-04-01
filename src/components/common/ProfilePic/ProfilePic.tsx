@@ -6,7 +6,7 @@ const ProfilePic = ({bg}: {bg?: string}) => {
     const { userData } = useData();
     
     return (
-        <div className={`${bg? bg : 'bg-white text-slate-900'} cursor-pointer min-h-14 min-w-14 rounded-full flex items-center justify-center font-bold text-xl`} >
+        <div className={`${bg? bg : 'bg-white text-slate-900'} select-none min-h-14 min-w-14 rounded-full flex items-center justify-center font-bold text-xl`} >
             {userData ? (
                 getInitials(userData.name)
             ) : (

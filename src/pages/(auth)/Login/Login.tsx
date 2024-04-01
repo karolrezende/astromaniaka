@@ -55,7 +55,7 @@ const Login = () => {
             <Input label='E-mail' name={'email'} register={register} type='text' errors={errors.email?.message} placeholder='Digite seu email...' />
             <Input name='password' label='Senha' type='password' errors={errors.password?.message} register={register} placeholder='Digite sua senha...' />
             <span className='self-end text-sm hover:font-medium'><Link to={'/password'}>Esqueci minha senha</Link></span>
-            <Button>Entrar</Button>
+            <Button >Entrar</Button>
           </form>
           <span className=''>Ainda não possui uma conta? <span className='font-bold text-sm hover:font-extrabold'><Link to={'/register'}>Cadastre-se</Link></span></span>
         </div>

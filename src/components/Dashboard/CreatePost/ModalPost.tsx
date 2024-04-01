@@ -10,10 +10,13 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
   const { userData } = useData();
 
   const [isOpenEmoji, setIsOpenEmoji] = useState(false);
+  const [isOpenPic, setIsOpenPic] = useState(false)
+
+  const [pic, setPic] = useState(false)
+
   const [text, setText] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // const [isOpenPic, setIsOpenPic] = useState(false)
 
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
@@ -36,6 +39,10 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
     }
   };
 
+  const handleOpenPic = () => {
+    setIsOpenPic(!isOpenPic);
+  };
+
   return (
     <ModalPostLayout handleModalPost={handleModalPost}>
       <div className="flex flex-col gap-6 md:w-[30rem]">
@@ -54,7 +61,7 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
             placeholder="Deixe suas ideias brilharem como estrelas ☆"
           ></textarea>
           {
-            <TypePic/>
+            isOpenPic && <TypePic handleOpenPic={handleOpenPic}/>
           }
           <div className="border p-1 flex justify-between gap-2 border-slate-900/60 rounded-lg items-center">
             <p className="px-1">Adicionar a publicação</p>
@@ -65,7 +72,7 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
                 title="Imagem"
                 className="border border-slate-900/60 hover:border-slate-900/80 rounded-full p-1 text-slate-900/50 hover:text-slate-900/80  cursor-pointer"
               >
-                <Image size={20} />
+                <Image size={20} onClick={()=> handleOpenPic()}/>
               </div>
               <div
                 onClick={() => handleOpenEmoji()}
@@ -82,6 +89,7 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
         </section>
       </div>
       {isOpenEmoji && <ModalEmoji handleOpenEmoji={handleOpenEmoji} />}
+      
     </ModalPostLayout>
   );
 };

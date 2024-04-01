@@ -2,12 +2,13 @@ import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import { X } from 'lucide-react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ModalEmoji = ({ handleOpenEmoji }: { handleOpenEmoji: (emoji?:any) => void }) => {
 
     return (<section className="absolute z-30 md:ml-96 md:mt-32">
         
         <div className='bg-white p-2 flex flex-col rounded-lg'>
-            <X className='self-end' onClick={handleOpenEmoji}/>   
+            <X className='self-end cursor-pointer' onClick={handleOpenEmoji} />   
             <Picker data={data}
                 locale_ui
                 onEmojiSelect={handleOpenEmoji}

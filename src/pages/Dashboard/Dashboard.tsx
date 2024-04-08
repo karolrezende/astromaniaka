@@ -11,7 +11,7 @@ const Dashboard = () => {
         <AuthGuard>
 
             <StarsLayout>
-            <main className="min-h-screen bg-gray-900 min-w-full">
+            <main className="min-h-screen min-w-full">
                 <Header/>
                 <Sidebar/>
                 <DashboardBody/>

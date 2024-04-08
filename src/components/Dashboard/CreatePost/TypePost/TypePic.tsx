@@ -38,8 +38,6 @@ const TypePic = ({ handleOpenPic }: { handleOpenPic: () => void }) => {
                   onClick={() => handleRemoveImage()}
                 />
                 <img
-                  width={60}
-                  height={60}
                   src={URL.createObjectURL(image)}
                   alt="Imagem de perfil"
                   className="w-32 h-32 md:w-64 md:h-64 rounded-lg"
@@ -54,7 +52,7 @@ const TypePic = ({ handleOpenPic }: { handleOpenPic: () => void }) => {
 
           <label
             htmlFor="file-input"
-            className="text-center  bg-slate-300 p-2 font-medium rounded-lg text-slate-700 cursor-pointer"
+            className="text-center  bg-slate-300 p-2 font-medium rounded-lg text-slate-700 cursor-pointer "
           >
             Selecione uma foto
             <input

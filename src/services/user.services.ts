@@ -18,6 +18,7 @@ export const registerUser = async (data: userRegister) => {
         
         return res.data
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     catch(err: any) {
         return err.request.status
     }

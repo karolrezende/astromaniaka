@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import baseURL from '@/environments/baseURL';
 import { userLogin } from '@/types/user.types';
 import React, { createContext, useState, useContext } from 'react';
@@ -25,9 +26,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             window.localStorage.setItem('token', token.data.token)
 
             setToken(token.data.token)
-
             return token.status
         } catch (error: any) {
+            console.log(error)
             return error.response.status
         }
     };

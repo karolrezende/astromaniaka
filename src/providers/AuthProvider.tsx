@@ -23,6 +23,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 email: userLogin.email,
                 password: userLogin.password
             })
+
+            console.log('token')
             window.localStorage.setItem('token', token.data.token)
 
             setToken(token.data.token)

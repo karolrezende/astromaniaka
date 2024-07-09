@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { useData } from "@/providers/DataProvider";
 import ProfilePic from "@/components/common/ProfilePic/ProfilePic";
 import ModalPostLayout from "@/layout/ModalPostLayout/ModalPostLayout";
@@ -6,25 +7,39 @@ import { CircleDot, Smile } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import ModalEmoji from "./TypePost/ModalEmoji";
-import { FieldValues, useForm } from "react-hook-form";
 import { postRegisterType } from "@/types/post.types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { postRegisterSchema } from "@/schemas/post.schemas";
 import ModalTypePost from "./TypePost/ModalTypePost";
 import { createPost } from "@/services/post.services";
+import { Type_post } from "@/utils/enums";
+import Popup from "@/components/common/Popup/Popup";
 
 const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
   const { userData } = useData();
 
   const [isOpenEmoji, setIsOpenEmoji] = useState(false);
   const [isOpenTypePost, setIsOpenTypePost] = useState(false);
-  const [text, setText] = useState("");
   const [typePost, setTypePost] = useState("");
+  const [postBody, setPostBody] = useState({ title: "", description: "" });
+  const [popup, setPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState(
+    "Não foi possível criar o post"
+  );
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(event.target.value);
+  const handleTitleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setPostBody((prevState) => ({
+      ...prevState,
+      title: event.target.value,
+    }));
+  };
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setPostBody((prevState) => ({
+      ...prevState,
+      description: event.target.value,
+    }));
   };
 
   useEffect(() => {
@@ -36,7 +51,10 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
   const handleOpenEmoji = (emoji?: { native: string }) => {
     setIsOpenEmoji(!isOpenEmoji);
     if (emoji) {
-      setText(text + emoji.native);
+      setPostBody((prevState) => ({
+        ...prevState,
+        description: postBody.description + emoji.native,
+      }));
     }
   };
 
@@ -47,25 +65,29 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
     }
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<postRegisterType>({
-    resolver: zodResolver(postRegisterSchema),
-  });
+  const handleCreatePost = async () => {
+    const data: postRegisterType = {
+      userId: userData?.id!,
+      post_type: typePost ? (typePost as Type_post) : null,
+      title: postBody.title,
+      description: postBody.description,
+    };
+    if (data.description == "" || data.title == "") {
+      setPopup(true);
+      setPopupMessage(
+        "Os campos de título e descrição precisam ser preenchidos!"
+      );
 
-  const handleCreatePost = async (data: FieldValues) => {
+      return;
+    }
+
     try {
-      data.userId = userData?.id;
-      data.post_type = typePost;
-      console.log(data);
       const newPost = await createPost(data as postRegisterType);
       console.log(newPost);
-      // Provide user feedback here if needed
     } catch (error) {
+      setPopup(true);
+      console.log("caiuuu");
       console.error("Error creating post:", error);
-      // Handle error and provide feedback to user
     }
   };
 
@@ -78,27 +100,20 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
             {userData ? userData.name : "Astromaniako"}
           </h2>
         </header>
-        <form
-          onSubmit={handleSubmit(handleCreatePost)}
-          className="flex flex-col gap-3"
-        >
+        <form className="flex flex-col gap-3">
           <div className="flex flex-col mt-2">
             <textarea
               className="rounded-xl h-8 flex items-center resize-none placeholder:text-md placeholder:font-medium outline-none font-bold text-lg"
               placeholder="Título"
-              {...register("title")}
+              onChange={handleTitleChange}
             />
-            <span>{errors.title?.message || "\u00A0"}</span>
-
             <textarea
-              {...register("description")}
               ref={inputRef}
-              value={text}
-              onChange={handleTextChange}
+              value={postBody.description}
+              onChange={handleDescriptionChange}
               className="rounded-xl resize-none placeholder:text-base outline-none"
               placeholder="Deixe suas ideias brilharem como estrelas ☆"
             ></textarea>
-            <span>{errors.description?.message || "\u00A0"}</span>
           </div>
 
           <div className="border p-1 flex justify-between gap-2 border-slate-900/60 rounded-lg items-center">
@@ -120,15 +135,26 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
               </div>
             </div>
           </div>
-          <button className="bg-slate-800/90 text-white rounded-md py-2 active:bg-slate-900">
+          <button
+            className="bg-slate-800/90 text-white rounded-md py-2 active:bg-slate-900"
+            onClick={(e) => {
+              e.preventDefault();
+              handleCreatePost();
+            }}
+          >
             Publicar
           </button>
         </form>
       </div>
       {isOpenEmoji && <ModalEmoji handleOpenEmoji={handleOpenEmoji} />}
       {isOpenTypePost && (
-        <ModalTypePost handleOpenTypePost={handleOpenTypePost} />
+        <ModalTypePost
+          handleOpenTypePost={handleOpenTypePost}
+          typePost={typePost}
+        />
       )}
+
+      {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}
     </ModalPostLayout>
   );
 };

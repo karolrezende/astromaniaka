@@ -9,7 +9,7 @@ export const createPost = async (data: postRegisterType) => {
       description: data.description,
       userId: data.userId,
       post_type: data.post_type,
-      picture: data.picture,
+      // picture: data.picture,s
     });
 
     if (res.status != 201) {

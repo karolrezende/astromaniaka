@@ -4,7 +4,6 @@ import { CircleCheck, LucideIcon } from 'lucide-react';
 
 const Popup = ({ message, setMessage, duration = 3000, Icon }: { message: string, duration?: number, Icon?: LucideIcon, setMessage: Dispatch<SetStateAction<string>> }) => {
     const [visible, setVisible] = useState(message ? true : false);
-    console.log(message, visible)
 
     useEffect(() => {
         if (message) {

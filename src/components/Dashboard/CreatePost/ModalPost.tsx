@@ -68,11 +68,11 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
   const handleCreatePost = async () => {
     const data: postRegisterType = {
       userId: userData?.id!,
-      post_type: typePost ? (typePost as Type_post) : null,
+      post_type: typePost ? (typePost as Type_post) : undefined,
       title: postBody.title,
       description: postBody.description,
     };
-    if (data.description == "" || data.title == "") {
+    if (!data.description || !data.title) {
       setPopup(true);
       setPopupMessage(
         "Os campos de título e descrição precisam ser preenchidos!"

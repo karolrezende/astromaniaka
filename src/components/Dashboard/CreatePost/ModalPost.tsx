@@ -77,16 +77,22 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
       setPopupMessage(
         "Os campos de título e descrição precisam ser preenchidos!"
       );
-
       return;
     }
 
     try {
       const newPost = await createPost(data as postRegisterType);
+
+      if (newPost) {
+        console.log("entrou");
+        setPopup(true);
+        setPopupMessage("Post criado com sucesso!");
+      }
+
+      handleModalPost();
       console.log(newPost);
     } catch (error) {
       setPopup(true);
-      console.log("caiuuu");
       console.error("Error creating post:", error);
     }
   };

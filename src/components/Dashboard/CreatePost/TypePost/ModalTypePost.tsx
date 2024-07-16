@@ -1,11 +1,11 @@
-import { Type_post } from "@/utils/enums";
+import { Type_post_enum } from "@/utils/enums";
 import { X } from "lucide-react";
 
 const ModalTypePost = ({
   handleOpenTypePost,
   typePost,
 }: {
-  handleOpenTypePost: (type_post?: string | undefined) => void;
+  handleOpenTypePost: (Type_post_enum?: string | undefined) => void;
   typePost: string;
 }) => {
   return (
@@ -18,65 +18,65 @@ const ModalTypePost = ({
         <h1 className="font-bold">Tipo da postagem</h1>
         <li
           className={`text-md text-slate-800 hover:bg-gray-300/40 cursor-pointer px-1 ${
-            typePost === Type_post.NOTICIA ? "selected-item" : ""
+            typePost === Type_post_enum.NOTICIA ? "selected-item" : ""
           }`}
-          onClick={() => handleOpenTypePost(Type_post.NOTICIA)}
+          onClick={() => handleOpenTypePost(Type_post_enum.NOTICIA)}
         >
           Notícia
         </li>
         <li
           className={`text-md text-slate-800 hover:bg-gray-300/40 cursor-pointer px-1 ${
-            typePost === Type_post.POST ? "selected-item" : ""
+            typePost === Type_post_enum.POST ? "selected-item" : ""
           }`}
-          onClick={() => handleOpenTypePost(Type_post.POST)}
+          onClick={() => handleOpenTypePost(Type_post_enum.POST)}
         >
           Post
         </li>
         <li
           className={`text-md text-slate-800 hover:bg-gray-300/40 cursor-pointer px-1 ${
-            typePost === Type_post.CURIOSITY ? "selected-item" : ""
+            typePost === Type_post_enum.CURIOSITY ? "selected-item" : ""
           }`}
-          onClick={() => handleOpenTypePost(Type_post.CURIOSITY)}
+          onClick={() => handleOpenTypePost(Type_post_enum.CURIOSITY)}
         >
           Curiosidade
         </li>
         <li
           className={`text-md text-slate-800 hover:bg-gray-300/40 cursor-pointer px-1 ${
-            typePost === Type_post.EVENTO ? "selected-item" : ""
+            typePost === Type_post_enum.EVENTO ? "selected-item" : ""
           }`}
-          onClick={() => handleOpenTypePost(Type_post.EVENTO)}
+          onClick={() => handleOpenTypePost(Type_post_enum.EVENTO)}
         >
           Evento
         </li>
         <li
           className={`text-md text-slate-800 hover:bg-gray-300/40 cursor-pointer px-1 ${
-            typePost === Type_post.FOTOGRAFIA ? "selected-item" : ""
+            typePost === Type_post_enum.FOTOGRAFIA ? "selected-item" : ""
           }`}
-          onClick={() => handleOpenTypePost(Type_post.FOTOGRAFIA)}
+          onClick={() => handleOpenTypePost(Type_post_enum.FOTOGRAFIA)}
         >
           Fotografia
         </li>
         <li
           className={`text-md text-slate-800 hover:bg-gray-300/40 cursor-pointer px-1 ${
-            typePost === Type_post.DICAS ? "selected-item" : ""
+            typePost === Type_post_enum.DICAS ? "selected-item" : ""
           }`}
-          onClick={() => handleOpenTypePost(Type_post.DICAS)}
+          onClick={() => handleOpenTypePost(Type_post_enum.DICAS)}
         >
           Dicas
         </li>
         <li
           className={`text-md text-slate-800 hover:bg-gray-300/40 cursor-pointer px-1 ${
-            typePost === Type_post.PERGUNTA ? "selected-item" : ""
+            typePost === Type_post_enum.PERGUNTA ? "selected-item" : ""
           }`}
-          onClick={() => handleOpenTypePost(Type_post.PERGUNTA)}
+          onClick={() => handleOpenTypePost(Type_post_enum.PERGUNTA)}
         >
           Pergunta
         </li>
         <li
           className={`text-md text-slate-800 hover:bg-gray-300/40 cursor-pointer px-1 ${
-            typePost === Type_post.OUTRO ? "selected-item" : ""
+            typePost === Type_post_enum.OUTRO ? "selected-item" : ""
           }`}
-          onClick={() => handleOpenTypePost(Type_post.OUTRO)}
+          onClick={() => handleOpenTypePost(Type_post_enum.OUTRO)}
         >
           Outro
         </li>

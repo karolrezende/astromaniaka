@@ -10,7 +10,7 @@ import ModalEmoji from "./TypePost/ModalEmoji";
 import { postRegisterType } from "@/types/post.types";
 import ModalTypePost from "./TypePost/ModalTypePost";
 import { createPost } from "@/services/post.services";
-import { Type_post } from "@/utils/enums";
+import { Type_post_enum } from "@/utils/enums";
 import Popup from "@/components/common/Popup/Popup";
 
 const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
@@ -68,7 +68,7 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
   const handleCreatePost = async () => {
     const data: postRegisterType = {
       userId: userData?.id!,
-      post_type: typePost ? (typePost as Type_post) : undefined,
+      post_type: typePost ? (typePost as Type_post_enum) : undefined,
       title: postBody.title,
       description: postBody.description,
     };

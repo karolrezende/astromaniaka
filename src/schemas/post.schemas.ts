@@ -11,11 +11,16 @@ export const postSchema = z.object({
   userId: z.string(),
   createdAt: z.date(),
   deletedAt: z.date().nullish(),
+  user: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
 });
 
 export const postRegisterSchema = postSchema.omit({
   id: true,
   is_accepted: true,
+  user: true,
   createdAt: true,
   deletedAt: true,
 });

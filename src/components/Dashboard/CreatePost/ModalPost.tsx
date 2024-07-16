@@ -101,7 +101,7 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
     <ModalPostLayout handleModalPost={handleModalPost}>
       <div className="flex flex-col gap-3 md:w-[30rem]">
         <header className="flex items-center gap-2">
-          <ProfilePic bg={"bg-slate-900 text-white"} />
+          <ProfilePic bg={"bg-slate-900 text-white"} name={userData?.name} />
           <h2 className="font-bold text-slate-900 text-xl ">
             {userData ? userData.name : "Astromaniako"}
           </h2>

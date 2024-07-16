@@ -7,25 +7,23 @@ import ProfilePic from "../../ProfilePic/ProfilePic";
 
 const Profile = () => {
   const { userData } = useData();
-  const [isOpen, setIsOpen] = useState(false)
-  const [isOpenMenu, setIsOpenMenu] = useState(false)
-  
-  const handleOpen = (state:boolean) =>{
-    setIsOpen(state)
-  }
-  const openMenu = () =>{
-    setIsOpenMenu(!isOpenMenu)
-  }
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
+
+  const handleOpen = (state: boolean) => {
+    setIsOpen(state);
+  };
+  const openMenu = () => {
+    setIsOpenMenu(!isOpenMenu);
+  };
 
   return (
     <section>
       <div className="flex items-center justify-between lg:justify-end p-4  gap-5">
-        <div className="flex lg:hidden" onClick={()=>handleOpen(true)}>
+        <div className="flex lg:hidden" onClick={() => handleOpen(true)}>
           <AlignJustify className="cursor-pointer text-white" />
         </div>
-          {
-            isOpen && <SidebarMobile handleOpen={handleOpen} />
-          }
+        {isOpen && <SidebarMobile handleOpen={handleOpen} />}
         <div className="flex items-center gap-2 justify-center ">
           {/* <div>
             <Bell />
@@ -42,12 +40,10 @@ const Profile = () => {
                 {userData ? userData.access_level : "user"}
               </p>
             </div>
-          <div onClick={()=> openMenu()} className="cursor-pointer">
-            <ProfilePic/>
-          </div>
-            {
-              isOpenMenu && <ProfileMenu/>
-            }
+            <div onClick={() => openMenu()} className="cursor-pointer">
+              <ProfilePic name={userData?.name} />
+            </div>
+            {isOpenMenu && <ProfileMenu />}
           </section>
         </div>
       </div>

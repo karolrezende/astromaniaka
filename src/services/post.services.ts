@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import baseURL from "@/environments/baseURL";
-import { postRegisterType } from "@/types/post.types";
+import { postRegisterType, postType } from "@/types/post.types";
 
 export const createPost = async (data: postRegisterType) => {
   try {
@@ -9,15 +9,28 @@ export const createPost = async (data: postRegisterType) => {
       description: data.description,
       userId: data.userId,
       post_type: data.post_type,
-      // picture: data.picture,s
+      // picture: data.pictures
     });
 
     if (res.status != 201) {
       return res.status;
     }
-
+    window.location.reload();
     return res.data;
   } catch (err: any) {
     return err.request.status;
+  }
+};
+
+export const getAllPosts = async (token: string) => {
+  try {
+    const response = await baseURL.get<postType[]>("/posts", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch posts", error);
   }
 };

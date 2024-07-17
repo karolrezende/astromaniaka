@@ -132,7 +132,7 @@ const Register = () => {
               />
             </div>
 
-            <Button style="w-full self-center mt-8">Cadastrar</Button>
+            <Button className="w-full self-center mt-8">Cadastrar</Button>
           </form>
           <div className="w-full text-center mt-3">
             <span className="text-sm">ou</span>

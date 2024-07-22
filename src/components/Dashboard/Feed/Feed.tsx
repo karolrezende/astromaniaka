@@ -68,7 +68,10 @@ const Feed = () => {
       </select>
       {filteredPosts.length > 0 ? (
         filteredPosts.map((post) => (
-          <div key={post.id} className="flex flex-col rounded-2xl border-4 p-2">
+          <div
+            key={post.id}
+            className="flex flex-col rounded-2xl bg-black/70 border-4 p-2"
+          >
             <div className="flex justify-between">
               <div className="flex items-center gap-2 px-3 py-2 rounded-2xl">
                 <ProfilePic bg="bg-gray-400" name={post.user.name} />

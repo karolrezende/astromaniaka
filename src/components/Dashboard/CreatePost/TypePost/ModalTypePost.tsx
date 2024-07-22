@@ -9,7 +9,7 @@ const ModalTypePost = ({
   typePost: string;
 }) => {
   return (
-    <div className="bg-white shadow-lg flex absolute right-24 top-[21rem] md:right-[27rem] flex-col rounded-md p-3 px-4">
+    <div className="bg-white shadow-lg flex absolute right-20 top-[21rem] sm:right=[22rem] lg:right-[34rem] flex-col rounded-md p-3 px-4">
       <X
         onClick={() => handleOpenTypePost()}
         className="self-end cursor-pointer"

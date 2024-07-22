@@ -34,3 +34,49 @@ export const getAllPosts = async (token: string) => {
     console.error("Failed to fetch posts", error);
   }
 };
+
+export const getPostById = async (id: string, token: string) => {
+  try {
+    const response = await baseURL.get<postType>(`posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch post", error);
+  }
+};
+export const editPost = async (
+  id: string,
+  { title, description }: { title: string; description: string },
+  token: string
+) => {
+  try {
+    const response = await baseURL.put<postType>(`posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: {
+        title,
+        description,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch post", error);
+  }
+};
+export const deletePosts = async (id: string, token: string) => {
+  try {
+    const response = await baseURL.delete(`posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.status;
+  } catch (error) {
+    console.error("Failed to delete post", error);
+    throw error;
+  }
+};

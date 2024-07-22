@@ -1,12 +1,20 @@
-import { ReactNode } from "react";
-interface ButtonProps {
-    children: ReactNode,
-    style?: string
+import { ReactNode, ButtonHTMLAttributes } from "react";
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
+  className?: string;
 }
-const Button = ({ children, style }: ButtonProps) => {
-    return (<button type="submit" className={`${style} text-white py-2 rounded-md mt-2 bg-blue-900 hover:bg-blue-900/90 font-bold`}>
-        {children}
-    </button>);
-}
+
+const Button = ({ children, className, ...props }: ButtonProps) => {
+  return (
+    <button
+      {...props}
+      type="submit"
+      className={`${className} text-white py-2 rounded-md mt-2 bg-blue-900 hover:bg-blue-900/90 font-bold`}
+    >
+      {children}
+    </button>
+  );
+};
 
 export default Button;

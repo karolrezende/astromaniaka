@@ -2,15 +2,25 @@
 import baseURL from "@/environments/baseURL";
 import { postRegisterType, postType } from "@/types/post.types";
 
-export const createPost = async (data: postRegisterType) => {
+export const createPost = async (
+  token: string | null,
+  data: postRegisterType
+) => {
   try {
-    const res = await baseURL.post("/posts", {
-      title: data.title,
-      description: data.description,
-      userId: data.userId,
-      post_type: data.post_type,
-      // picture: data.pictures
-    });
+    const res = await baseURL.post(
+      "/posts",
+      {
+        title: data.title,
+        description: data.description,
+        userId: data.userId,
+        post_type: data.post_type,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (res.status != 201) {
       return res.status;
@@ -53,15 +63,18 @@ export const editPost = async (
   token: string
 ) => {
   try {
-    const response = await baseURL.put<postType>(`posts/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: {
+    const response = await baseURL.put<postType>(
+      `posts/${id}`,
+      {
         title,
         description,
       },
-    });
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Failed to fetch post", error);

@@ -25,7 +25,6 @@ const EditPost = ({
     const fetchPost = async () => {
       try {
         const post = await getPostById(id, token!);
-        console.log(post);
         setTitle(post!.title);
         setDescription(post!.description);
       } catch (error) {
@@ -39,14 +38,23 @@ const EditPost = ({
   const handleEditPost = async () => {
     setIsLoading(true);
     try {
-      await editPost(id, { title, description }, token!);
-      setPopupMessage("Post editado com sucesso!");
+      const post = await editPost(id, { title, description }, token!);
+      if (post) {
+        setPopupMessage("Post editado com sucesso!");
+        setPopup(true);
+      } else {
+        setPopupMessage("Não foi possível editar o post");
+        setPopup(true);
+      }
+
+      setTimeout(() => {
+        handleEditPostModal();
+      }, 1000);
     } catch (error) {
       setPopupMessage("Não foi possível editar o post");
-    } finally {
-      setIsLoading(false);
       setPopup(true);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -54,20 +62,36 @@ const EditPost = ({
       <div>
         <h1 className="text-gray-900 text-md font-bold">Editar</h1>
         <div>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <input
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+          <div className="flex flex-col w-full min-w-[500px] text-gray-800 gap-3">
+            <div className="flex flex-col mt-3">
+              <label className="text-xs ml-1" htmlFor="title">
+                Título
+              </label>
+              <input
+                id="title"
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="border-2 rounded-lg p-1 px-2 border-zinc-800"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label className="text-xs ml-1" htmlFor="description">
+                Descrição
+              </label>
+              <textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="border-2 rounded-lg p-1 px-2 border-zinc-800"
+              />
+            </div>
+          </div>
           <Button
             className="px-2 w-full mt-4"
             disabled={isLoading}
-            onClick={handleEditPost}
+            onClick={() => handleEditPost()}
           >
             {isLoading ? "Editando..." : "Confirmar"}
           </Button>

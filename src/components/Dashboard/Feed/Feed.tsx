@@ -16,7 +16,7 @@ const Feed = () => {
   const [modalEditPost, setModalEditPost] = useState<boolean>(false);
   const { userData } = useData();
   const [selectedPostType, setSelectedPostType] = useState<string>("");
-
+  const [postId, setPostId] = useState<string>("");
   useEffect(() => {
     const fetchPosts = async () => {
       if (token) {
@@ -40,7 +40,7 @@ const Feed = () => {
   const handleDeletePostModal = () => {
     setModalDeletePost(!modalDeletePost);
   };
-  const handleEditPostModal = () => {
+  const handleEditPostModal = async () => {
     setModalEditPost(!modalEditPost);
   };
 
@@ -87,11 +87,11 @@ const Feed = () => {
                     <Pencil
                       size={20}
                       className="cursor-pointer"
-                      onClick={handleEditPostModal}
+                      onClick={handleEditPostModal()}
                     />
                     <Trash2
                       size={20}
-                      onClick={handleDeletePostModal}
+                      onClick={handleDeletePostModal()}
                       className="cursor-pointer"
                     />
                   </>

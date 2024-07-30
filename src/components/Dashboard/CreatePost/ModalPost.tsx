@@ -12,9 +12,11 @@ import ModalTypePost from "./TypePost/ModalTypePost";
 import { createPost } from "@/services/post.services";
 import { Type_post_enum } from "@/utils/enums";
 import Popup from "@/components/common/Popup/Popup";
+import { useAuth } from "@/providers/AuthProvider";
 
 const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
   const { userData } = useData();
+  const { token } = useAuth();
 
   const [isOpenEmoji, setIsOpenEmoji] = useState(false);
   const [isOpenTypePost, setIsOpenTypePost] = useState(false);
@@ -81,16 +83,16 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
     }
 
     try {
-      const newPost = await createPost(data as postRegisterType);
+      const newPost = await createPost(token, data as postRegisterType);
 
       if (newPost) {
-        console.log("entrou");
         setPopup(true);
         setPopupMessage("Post criado com sucesso!");
       }
 
-      handleModalPost();
-      console.log(newPost);
+      setTimeout(() => {
+        handleModalPost();
+      }, 2000);
     } catch (error) {
       setPopup(true);
       console.error("Error creating post:", error);
@@ -143,10 +145,7 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
           </div>
           <button
             className="bg-slate-800/90 text-white rounded-md py-2 active:bg-slate-900"
-            onClick={(e) => {
-              e.preventDefault();
-              handleCreatePost();
-            }}
+            onClick={() => handleCreatePost()}
           >
             Publicar
           </button>

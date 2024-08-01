@@ -1,16 +1,17 @@
 import ModalPostLayout from "@/layout/ModalPostLayout/ModalPostLayout";
 import Button from "@/components/common/Button/Button";
 import { useAuth } from "@/providers/AuthProvider";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Popup from "@/components/common/Popup/Popup";
-import { editPost, getPostById } from "@/services/post.services"; // Assuming you have a service to fetch a post by ID
+import { editPost } from "@/services/post.services";
+import { postType } from "@/types/post.types";
 
 const EditPost = ({
   handleEditPostModal,
-  id,
+  post,
 }: {
   handleEditPostModal: () => void;
-  id: string;
+  post: postType;
 }) => {
   const { token } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -18,28 +19,17 @@ const EditPost = ({
   const [popupMessage, setPopupMessage] = useState(
     "Não foi possível editar o post"
   );
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const post = await getPostById(id, token!);
-        setTitle(post!.title);
-        setDescription(post!.description);
-      } catch (error) {
-        setPopupMessage("Não foi possível carregar o post");
-        setPopup(true);
-      }
-    };
-    fetchPost();
-  }, [id, token]);
-
+  const [title, setTitle] = useState(post.title);
+  const [description, setDescription] = useState(post.description);
   const handleEditPost = async () => {
     setIsLoading(true);
     try {
-      const post = await editPost(id, { title, description }, token!);
-      if (post) {
+      const editedPost = await editPost(
+        post.id,
+        { title, description },
+        token!
+      );
+      if (editedPost) {
         setPopupMessage("Post editado com sucesso!");
         setPopup(true);
       } else {
@@ -49,7 +39,9 @@ const EditPost = ({
 
       setTimeout(() => {
         handleEditPostModal();
-      }, 1000);
+      }, 3000);
+
+      window.location.reload();
     } catch (error) {
       setPopupMessage("Não foi possível editar o post");
       setPopup(true);

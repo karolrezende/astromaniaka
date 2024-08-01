@@ -4,10 +4,11 @@ import { useData } from "@/providers/DataProvider";
 import { getAllPosts } from "@/services/post.services";
 import { postType } from "@/types/post.types";
 import { Access_Level_enum, Type_post_enum } from "@/utils/enums";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Search, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import DeletePost from "./DeletePost/DeletePost";
 import EditPost from "./EditPost/EditPost";
+import { formatDate } from "@/utils/formatDate";
 
 const Feed = () => {
   const { token } = useAuth();
@@ -16,7 +17,7 @@ const Feed = () => {
   const [modalEditPost, setModalEditPost] = useState<boolean>(false);
   const { userData } = useData();
   const [selectedPostType, setSelectedPostType] = useState<string>("");
-  const [postId, setPostId] = useState<string>("");
+  const [postSelected, setPostSelected] = useState<postType>();
   useEffect(() => {
     const fetchPosts = async () => {
       if (token) {
@@ -43,7 +44,6 @@ const Feed = () => {
   const handleEditPostModal = async () => {
     setModalEditPost(!modalEditPost);
   };
-
   const handlePostTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedPostType(e.target.value);
   };
@@ -54,23 +54,35 @@ const Feed = () => {
 
   return (
     <section className="mt-6 flex flex-col gap-3 rounded-2xl w-[99%] text-white">
-      <select
-        className="w-36 self-end text-gray-800 rounded-md p-1 cursor-pointer"
-        onChange={handlePostTypeChange}
-        value={selectedPostType}
-      >
-        <option value="">TODOS</option>
-        {Object.values(Type_post_enum).map((postType) => (
-          <option key={postType} value={postType}>
-            {postType}
-          </option>
-        ))}
-      </select>
+      {/* Pesquisar */}
+      <div className="flex justify-between">
+        <div className="bg-white rounded-xl text-gray-800 flex items-center gap-2 px-3 py-1 hover:border-2 cursor-pointer">
+          <Search />
+          <input
+            className="text-gray-400 cursor-pointer outline-none"
+            placeholder="Pesquisar posts"
+            onC
+          />
+        </div>
+        {/* Seletor de tipo */}
+        <select
+          className="w-36 self-end text-gray-800 rounded-md p-1 cursor-pointer"
+          onChange={handlePostTypeChange}
+          value={selectedPostType}
+        >
+          <option value="">TODOS</option>
+          {Object.values(Type_post_enum).map((postType) => (
+            <option key={postType} value={postType}>
+              {postType}
+            </option>
+          ))}
+        </select>
+      </div>
       {filteredPosts.length > 0 ? (
         filteredPosts.map((post) => (
           <div
             key={post.id}
-            className="flex flex-col rounded-2xl bg-black/70 border-4 p-2"
+            className="flex flex-col rounded-2xl bg-black/40 border-4 p-2"
           >
             <div className="flex justify-between">
               <div className="flex items-center gap-2 px-3 py-2 rounded-2xl">
@@ -79,6 +91,9 @@ const Feed = () => {
               </div>
 
               <div className="flex gap-2 items-center">
+                <div className="text-white h-auto rounded-md p-1 text-xs">
+                  {formatDate(post.createdAt)}
+                </div>
                 <div className="bg-white text-gray-800 h-auto rounded-md p-1 text-xs">
                   {post.post_type}
                 </div>
@@ -87,11 +102,15 @@ const Feed = () => {
                     <Pencil
                       size={20}
                       className="cursor-pointer"
-                      onClick={handleEditPostModal()}
+                      onClick={() => (
+                        handleEditPostModal(), setPostSelected(post)
+                      )}
                     />
                     <Trash2
                       size={20}
-                      onClick={handleDeletePostModal()}
+                      onClick={() => (
+                        handleDeletePostModal(), setPostSelected(post)
+                      )}
                       className="cursor-pointer"
                     />
                   </>
@@ -107,13 +126,13 @@ const Feed = () => {
             {modalDeletePost && (
               <DeletePost
                 handleDeletePostModal={handleDeletePostModal}
-                id={post.id}
+                post={postSelected!}
               />
             )}
             {modalEditPost && (
               <EditPost
                 handleEditPostModal={handleEditPostModal}
-                id={post.id}
+                post={postSelected!}
               />
             )}
           </div>

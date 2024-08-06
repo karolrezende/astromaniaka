@@ -80,6 +80,26 @@ export const editPost = async (
     console.error("Failed to fetch post", error);
   }
 };
+
+export const selectPost = async (posts: string, token: string) => {
+  try {
+    const response = await baseURL.post<postType[]>(
+      `posts/searchPosts`,
+      {
+        posts,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch post", error);
+  }
+};
+
 export const deletePosts = async (id: string, token: string) => {
   try {
     const response = await baseURL.delete(`posts/${id}`, {

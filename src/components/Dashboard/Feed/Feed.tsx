@@ -1,7 +1,7 @@
 import ProfilePic from "@/components/common/ProfilePic/ProfilePic";
 import { useAuth } from "@/providers/AuthProvider";
 import { useData } from "@/providers/DataProvider";
-import { getAllPosts } from "@/services/post.services";
+import { getAllPosts, selectPost } from "@/services/post.services";
 import { postType } from "@/types/post.types";
 import { Access_Level_enum, Type_post_enum } from "@/utils/enums";
 import { Pencil, Search, Trash2 } from "lucide-react";
@@ -52,16 +52,24 @@ const Feed = () => {
     ? posts.filter((post) => post.post_type === selectedPostType)
     : posts;
 
+  const handleSearchPost = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = e.target.value;
+
+    const searchedPosts = await selectPost(searchValue, token!);
+    setPosts(searchedPosts!);
+    console.log(posts, "posts");
+  };
+
   return (
     <section className="mt-6 flex flex-col gap-3 rounded-2xl w-[99%] text-white">
       {/* Pesquisar */}
       <div className="flex justify-between">
-        <div className="bg-white rounded-xl text-gray-800 flex items-center gap-2 px-3 py-1 hover:border-2 cursor-pointer">
+        <div className="bg-white rounded-xl text-gray-800 flex items-center gap-2 px-3 py-1 hover:text-gray-600 cursor-pointer">
           <Search />
           <input
             className="text-gray-400 cursor-pointer outline-none"
             placeholder="Pesquisar posts"
-            onC
+            onChange={(e) => handleSearchPost(e)}
           />
         </div>
         {/* Seletor de tipo */}
@@ -78,8 +86,8 @@ const Feed = () => {
           ))}
         </select>
       </div>
-      {filteredPosts.length > 0 ? (
-        filteredPosts.map((post) => (
+      {posts.length > 0 ? (
+        posts.map((post) => (
           <div
             key={post.id}
             className="flex flex-col rounded-2xl bg-black/40 border-4 p-2"

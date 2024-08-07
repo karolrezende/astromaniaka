@@ -12,17 +12,21 @@ import { formatDate } from "@/utils/formatDate";
 
 const Feed = () => {
   const { token } = useAuth();
-  const [posts, setPosts] = useState<postType[]>([]);
+  const { userData } = useData();
+  const [allPosts, setAllPosts] = useState<postType[]>([]);
+  const [filteredPosts, setFilteredPosts] = useState<postType[]>([]);
   const [modalDeletePost, setModalDeletePost] = useState<boolean>(false);
   const [modalEditPost, setModalEditPost] = useState<boolean>(false);
-  const { userData } = useData();
   const [selectedPostType, setSelectedPostType] = useState<string>("");
   const [postSelected, setPostSelected] = useState<postType>();
+  const [searchValue, setSearchValue] = useState<string>("");
+
   useEffect(() => {
     const fetchPosts = async () => {
       if (token) {
         const posts = await getAllPosts(token);
-        setPosts(posts as postType[]);
+        setAllPosts(posts as postType[]);
+        setFilteredPosts(posts as postType[]);
       }
     };
 
@@ -30,34 +34,44 @@ const Feed = () => {
   }, [token]);
 
   const verifyIsOwnerOrAdmin = (id: string) => {
-    if (
-      userData?.id === id ||
-      userData?.access_level == Access_Level_enum.ADMIN
-    ) {
-      return true;
-    }
+    return (
+      userData?.id === id || userData?.access_level == Access_Level_enum.ADMIN
+    );
   };
 
   const handleDeletePostModal = () => {
     setModalDeletePost(!modalDeletePost);
   };
-  const handleEditPostModal = async () => {
+
+  const handleEditPostModal = () => {
     setModalEditPost(!modalEditPost);
   };
+
   const handlePostTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedPostType(e.target.value);
+    applyFilters(e.target.value, searchValue);
   };
 
-  const filteredPosts = selectedPostType
-    ? posts.filter((post) => post.post_type === selectedPostType)
-    : posts;
+  const handleSearchPost = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchValue(value);
+    applyFilters(selectedPostType, value);
+  };
 
-  const handleSearchPost = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = e.target.value;
+  const applyFilters = (type: string, search: string) => {
+    let filtered = allPosts;
 
-    const searchedPosts = await selectPost(searchValue, token!);
-    setPosts(searchedPosts!);
-    console.log(posts, "posts");
+    if (type) {
+      filtered = filtered.filter((post) => post.post_type === type);
+    }
+
+    if (search) {
+      filtered = filtered.filter((post) =>
+        post.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    setFilteredPosts(filtered);
   };
 
   return (
@@ -69,7 +83,7 @@ const Feed = () => {
           <input
             className="text-gray-400 cursor-pointer outline-none"
             placeholder="Pesquisar posts"
-            onChange={(e) => handleSearchPost(e)}
+            onChange={handleSearchPost}
           />
         </div>
         {/* Seletor de tipo */}
@@ -86,8 +100,8 @@ const Feed = () => {
           ))}
         </select>
       </div>
-      {posts.length > 0 ? (
-        posts.map((post) => (
+      {filteredPosts.length > 0 ? (
+        filteredPosts.map((post) => (
           <div
             key={post.id}
             className="flex flex-col rounded-2xl bg-black/40 border-4 p-2"

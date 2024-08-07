@@ -5,20 +5,21 @@ import Register from "./pages/(auth)/Register/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Notfound from "./pages/Notfound/Notfound";
 import Configs from "./pages/Configs/Configs";
+import Profile from "./pages/Profile/Profile";
 
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/configs" element={<Configs />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<Notfound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
-const  App= () => {
-    return ( 
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Dashboard/>}/>
-                <Route path="/login"  element={<Login/>}/>
-                <Route path="/register" element={<Register/>}/>
-                <Route path="/configs" element={<Configs/>}/>
-                <Route path="*" element={<Notfound/>}/>
-            </Routes>
-        </BrowserRouter>
-     );
-}
- 
 export default App;

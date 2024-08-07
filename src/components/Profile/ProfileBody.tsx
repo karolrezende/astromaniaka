@@ -1,9 +1,10 @@
 import { useAuth } from "@/providers/AuthProvider";
 import Button from "../common/Button/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useData } from "@/providers/DataProvider";
 import { editUser } from "@/services/user.services";
 import Popup from "../common/Popup/Popup";
+import { Pencil } from "lucide-react";
 
 const ProfileBody = () => {
   const { token } = useAuth();
@@ -16,6 +17,13 @@ const ProfileBody = () => {
 
   const [name, setName] = useState(userData?.name);
   const [email, setEmail] = useState(userData?.email);
+
+  useEffect(() => {
+    if (userData) {
+      setName(userData.name);
+      setEmail(userData.email);
+    }
+  }, [userData]);
 
   const handleEditPost = async () => {
     setIsLoading(true);
@@ -49,27 +57,33 @@ const ProfileBody = () => {
               <h1 className="text-2xl">Meu perfil</h1>
             </header>
             <div>
-              <div className="flex flex-col">
+              <div className="flex flex-col mt-2">
                 <label className="text-xs ml-1" htmlFor="name">
                   Nome
                 </label>
-                <input
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="border-2 rounded-lg p-1 px-2 border-zinc-800"
-                />
+                <div className="flex border-2 rounded-2xl items-center px-2 py-1 border-zinc-700">
+                  <input
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className=" rounded-lg p-1 px-2 outline-none "
+                  />
+                  <Pencil className="cursor-pointer" />
+                </div>
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col mt-2">
                 <label className="text-xs ml-1" htmlFor="email">
                   Email
                 </label>
-                <input
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="border-2 rounded-lg p-1 px-2 border-zinc-800"
-                />
+                <div className="flex border-2 rounded-2xl items-center px-2 py-1 border-zinc-700">
+                  <input
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className=" rounded-lg p-1 px-2 outline-none "
+                  />
+                  <Pencil className="cursor-pointer" />
+                </div>
               </div>
             </div>
 

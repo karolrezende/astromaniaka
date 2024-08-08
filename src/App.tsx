@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Notfound from "./pages/Notfound/Notfound";
 import Configs from "./pages/Configs/Configs";
 import Profile from "./pages/Profile/Profile";
+import Admin from "./pages/Admin/Admin";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/configs" element={<Configs />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<Notfound />} />
       </Routes>
     </BrowserRouter>

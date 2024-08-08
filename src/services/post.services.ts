@@ -75,25 +75,7 @@ export const editPost = async (
         },
       }
     );
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch post", error);
-  }
-};
-
-export const selectPost = async (posts: string, token: string) => {
-  try {
-    const response = await baseURL.post<postType[]>(
-      `posts/searchPosts`,
-      {
-        posts,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    window.location.reload();
     return response.data;
   } catch (error) {
     console.error("Failed to fetch post", error);

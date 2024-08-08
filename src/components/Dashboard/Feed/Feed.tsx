@@ -1,7 +1,7 @@
 import ProfilePic from "@/components/common/ProfilePic/ProfilePic";
 import { useAuth } from "@/providers/AuthProvider";
 import { useData } from "@/providers/DataProvider";
-import { getAllPosts, selectPost } from "@/services/post.services";
+import { getAllPosts } from "@/services/post.services";
 import { postType } from "@/types/post.types";
 import { Access_Level_enum, Type_post_enum } from "@/utils/enums";
 import { Pencil, Search, Trash2 } from "lucide-react";

@@ -3,12 +3,16 @@ import DeletePost from "@/components/Dashboard/Feed/DeletePost/DeletePost";
 import { postType } from "@/types/post.types";
 import { getInitials } from "@/utils/getInitials";
 import { useState } from "react";
+import PostAcceptModal from "./PostAcceptModal";
 
 const Post = ({ post }: { post: postType }) => {
   const [postSelected, setPostSelected] = useState<postType>();
   const [modalDeletePost, setModalDeletePost] = useState<boolean>(false);
+  const [modalAcceptPost, setModalAcceptPost] = useState<boolean>(false);
 
-  const handleDeletePost = () => {};
+  const handleAcceptPostModal = () => {
+    setModalAcceptPost(!modalAcceptPost);
+  };
   const handleDeletePostModal = () => {
     setModalDeletePost(!modalDeletePost);
   };
@@ -31,6 +35,7 @@ const Post = ({ post }: { post: postType }) => {
         <div className="flex gap-2">
           <Button
             className={"px-2 bg-green-800 font-medium hover:bg-green-800/80"}
+            onClick={() => (handleAcceptPostModal(), setPostSelected(post))}
           >
             Aceitar
           </Button>
@@ -46,6 +51,12 @@ const Post = ({ post }: { post: postType }) => {
       {modalDeletePost && (
         <DeletePost
           handleDeletePostModal={handleDeletePostModal}
+          post={postSelected!}
+        />
+      )}
+      {modalAcceptPost && (
+        <PostAcceptModal
+          handleAcceptPostModal={handleAcceptPostModal}
           post={postSelected!}
         />
       )}

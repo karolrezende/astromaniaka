@@ -5,22 +5,17 @@ import AuthGuard from "@/guards/AuthGuard";
 import StarsLayout from "@/layout/StarsLayout/StarsLayout";
 
 const Dashboard = () => {
-
-    return (
-
-        <AuthGuard>
-
-            <StarsLayout>
-            <main className="min-h-screen min-w-full">
-                <Header/>
-                <Sidebar/>
-                <DashboardBody/>
-            </main>
-            </StarsLayout>
-        </AuthGuard>
-
-    )
-
-}
+  return (
+    <AuthGuard>
+      <StarsLayout>
+        <main className="min-h-screen min-w-full">
+          <Header />
+          <Sidebar />
+          <DashboardBody />
+        </main>
+      </StarsLayout>
+    </AuthGuard>
+  );
+};
 
 export default Dashboard;

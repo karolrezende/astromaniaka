@@ -22,8 +22,7 @@ const PostAcceptModal = ({
   const handleAcceptPost = async () => {
     setIsLoading(true);
     try {
-      const res = await acceptPost(post.id, token!);
-      console.log(res);
+      await acceptPost(post.id, token!);
       setPopup(true);
       setPopupMessage("O post foi aceito!");
 
@@ -48,7 +47,7 @@ const PostAcceptModal = ({
         <h4 className="text-gray-700 text-center mt-2">"{post.title}"</h4>
         <div onClick={handleAcceptPost}>
           <Button className="px-2 w-full mt-4" disabled={isLoading}>
-            {isLoading ? "Excluindo..." : "Confirmar"}
+            {isLoading ? "Carregando..." : "Confirmar"}
           </Button>
         </div>
       </div>

@@ -29,9 +29,13 @@ const AdminPostTable = () => {
         <h1 className="text-3xl bg-gray-600/80 text-white uppercase font-medium mr-3 rounded-md px-4 py-2">
           Painel administrativo
         </h1>
-        {posts.map((post) => {
-          return <Post post={post} key={post.id} />;
-        })}
+        {posts.length > 0 ? (
+          posts.map((post) => <Post post={post} key={post.id} />)
+        ) : (
+          <p className="text-center text-gray-500 mt-6 text-lg">
+            Nenhum post foi encontrado
+          </p>
+        )}
 
         {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}
       </div>

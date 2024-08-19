@@ -84,11 +84,15 @@ export const editPost = async (
 
 export const acceptPost = async (id: string, token: string) => {
   try {
-    const response = await baseURL.put(`posts/accept/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await baseURL.put(
+      `posts/accept/${id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.status;
   } catch (error) {
     console.error("Failed to delete post", error);

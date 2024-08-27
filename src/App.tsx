@@ -7,6 +7,7 @@ import Notfound from "./pages/Notfound/Notfound";
 import Configs from "./pages/Configs/Configs";
 import Profile from "./pages/Profile/Profile";
 import Admin from "./pages/Admin/Admin";
+import Password from "./pages/Password/Password";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/configs" element={<Configs />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/password" element={<Password />} />
         <Route path="*" element={<Notfound />} />
       </Routes>
     </BrowserRouter>

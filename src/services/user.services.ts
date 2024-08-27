@@ -1,5 +1,9 @@
 import baseURL from "@/environments/baseURL";
-import { userRegister, userWithoutPassword } from "@/types/user.types";
+import {
+  userPassword,
+  userRegister,
+  userWithoutPassword,
+} from "@/types/user.types";
 
 export const registerUser = async (data: userRegister) => {
   try {
@@ -15,8 +19,8 @@ export const registerUser = async (data: userRegister) => {
     }
 
     return res.data;
-  } catch (err: any) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
     return err.request.status;
   }
 };
@@ -39,6 +43,23 @@ export const editUser = async (
         },
       }
     );
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch post", error);
+  }
+};
+
+export const editPassword = async (data: {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}) => {
+  try {
+    const response = await baseURL.post<userPassword>(`users/password`, {
+      email: data.email,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+    });
     return response.data;
   } catch (error) {
     console.error("Failed to fetch post", error);

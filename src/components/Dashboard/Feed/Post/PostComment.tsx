@@ -13,7 +13,7 @@ const PostComment = () => {
           placeholder="Comentar..."
           onChange={(e) => setComment(e.target.value)}
         ></textarea>
-        <Button onClick={}>Enviar</Button>
+        <Button onClick={() => handleComment()}>Enviar</Button>
       </div>
     </>
   );

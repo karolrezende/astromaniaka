@@ -8,6 +8,7 @@ import Configs from "./pages/Configs/Configs";
 import Profile from "./pages/Profile/Profile";
 import Admin from "./pages/Admin/Admin";
 import Password from "./pages/Password/Password";
+import History from "./pages/History/History";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/configs" element={<Configs />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/history" element={<History />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/password" element={<Password />} />
         <Route path="*" element={<Notfound />} />

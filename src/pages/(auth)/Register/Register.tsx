@@ -40,7 +40,7 @@ const Register = () => {
       return;
     }
 
-    if (resData === 400) {
+    if (resData === 400 || resData == 500) {
       setMessage("Algo deu errado, tente novamente");
       setIcon(X);
       return;

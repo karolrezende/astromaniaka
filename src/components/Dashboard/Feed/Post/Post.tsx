@@ -8,6 +8,7 @@ import { useData } from "@/providers/DataProvider";
 import { useState } from "react";
 import { Access_Level_enum } from "@/utils/enums";
 import PostComment from "./PostComment";
+import PostAllComments from "./PostAllComments";
 
 const Post = ({ post }: { post: postType }) => {
   const { userData } = useData();
@@ -80,7 +81,21 @@ const Post = ({ post }: { post: postType }) => {
           post={postSelected!}
         />
       )}
-      <PostComment />
+      <div className=" border-t-2 border-gray-700 mx-3">
+        <h1 className="mt-4 text-lg">Comentários</h1>
+        <div className="  max-h-[200px] overflow-x-auto">
+          {post.comments && post.comments.length > 0 ? (
+            post.comments.map((comment) => (
+              <PostAllComments key={comment.id} comment={comment} />
+            ))
+          ) : (
+            <p className="text-gray-200/50">
+              Ainda sem comentários, diga algo..
+            </p>
+          )}
+        </div>
+      </div>
+      <PostComment user={userData!} post={post!} />
     </div>
   );
 };

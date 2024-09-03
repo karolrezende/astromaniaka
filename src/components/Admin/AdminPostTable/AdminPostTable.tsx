@@ -26,7 +26,7 @@ const AdminPostTable = () => {
   return (
     <section className="lg:ml-[19rem] min-h-screen pt-32 flex justify-center">
       <div className="mx-4  rounded-lg w-full flex flex-col overflow-y-auto h-[calc(100vh-8rem)] gap-2">
-        <h1 className="text-3xl bg-gray-600/80 text-white uppercase font-medium mr-3 rounded-md px-4 py-2">
+        <h1 className="text-3xl bg-gray-600 text-white uppercase font-medium mr-3 rounded-md px-4 py-2">
           Painel administrativo
         </h1>
         {posts.length > 0 ? (

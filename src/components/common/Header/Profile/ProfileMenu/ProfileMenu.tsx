@@ -15,11 +15,12 @@ const ProfileMenu = () => {
           </li>
         </Link>
         <Link to={"/configs"}>
-          {/* <li className="flex cursor-pointer hover:bg-gray-200 px-3 py-2 rounded-lg gap-1 text-md justify-start items-center">
-                <Settings />
-                Configurações
-            </li> */}
+          <li className="flex cursor-pointer hover:bg-gray-200 px-3 py-2 rounded-lg gap-1 text-md justify-start items-center">
+            <Settings />
+            Configurações
+          </li>
         </Link>
+
         <div className="w-full h-[0.5px] my-1 bg-black/20"></div>
         <li
           className="flex cursor-pointer hover:bg-gray-200 px-3 py-2 rounded-lg gap-1 text-md justify-start items-center hover:text-red-600"

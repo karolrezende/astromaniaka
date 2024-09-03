@@ -5,8 +5,9 @@ import { useData } from "@/providers/DataProvider";
 import { editUser } from "@/services/user.services";
 import Popup from "../common/Popup/Popup";
 import { Pencil } from "lucide-react";
+import DeleteUser from "./DeleteUser";
 
-const ProfileBody = () => {
+const ConfigsBody = () => {
   const { token } = useAuth();
   const { userData } = useData();
   const [isLoading, setIsLoading] = useState(false);
@@ -18,6 +19,7 @@ const ProfileBody = () => {
   const [name, setName] = useState(userData?.name);
   const [email, setEmail] = useState(userData?.email);
 
+  const [deleteUser, setDeleteUser] = useState(false);
   useEffect(() => {
     if (userData) {
       setName(userData.name);
@@ -25,7 +27,7 @@ const ProfileBody = () => {
     }
   }, [userData]);
 
-  const handleEditPost = async () => {
+  const handleEditUser = async () => {
     setIsLoading(true);
     try {
       if (userData && token) {
@@ -47,6 +49,10 @@ const ProfileBody = () => {
   if (!userData) {
     return <div>Carregando...</div>;
   }
+
+  const handleDeleteUser = () => {
+    setDeleteUser(!deleteUser);
+  };
 
   return (
     <section className="lg:ml-[19rem] min-h-screen pt-32 flex justify-center">
@@ -87,15 +93,22 @@ const ProfileBody = () => {
               </div>
             </div>
 
-            <Button className="px-2 w-full mt-4" onClick={handleEditPost}>
+            <Button className="px-2 w-full mt-4" onClick={handleEditUser}>
               {isLoading ? "Aguarde..." : "Editar perfil"}
+            </Button>
+            <Button
+              className=" w-full mt-2 bg-transparent border-2 hover:bg-slate-100 border-red-500 text-red-500 "
+              onClick={handleDeleteUser}
+            >
+              Excluir perfil
             </Button>
           </div>
         </div>
       </div>
+      {deleteUser && <DeleteUser handleDeleteUser={handleDeleteUser} />}
       {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}
     </section>
   );
 };
 
-export default ProfileBody;
+export default ConfigsBody;

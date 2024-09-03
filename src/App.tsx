@@ -9,6 +9,7 @@ import Profile from "./pages/Profile/Profile";
 import Admin from "./pages/Admin/Admin";
 import Password from "./pages/Password/Password";
 import History from "./pages/History/History";
+import People from "./pages/People/People";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/history" element={<History />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/people" element={<People />} />
         <Route path="/password" element={<Password />} />
         <Route path="*" element={<Notfound />} />
       </Routes>

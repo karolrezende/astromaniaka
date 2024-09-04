@@ -10,6 +10,7 @@ import Admin from "./pages/Admin/Admin";
 import Password from "./pages/Password/Password";
 import History from "./pages/History/History";
 import People from "./pages/People/People";
+import Person from "./pages/Person/Person";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/history" element={<History />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/people" element={<People />} />
+        <Route path="/person/:id" element={<Person />} />
         <Route path="/password" element={<Password />} />
         <Route path="*" element={<Notfound />} />
       </Routes>

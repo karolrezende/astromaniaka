@@ -18,10 +18,10 @@ const PeopleBody = () => {
     <section className="lg:ml-[19rem] min-h-screen pt-32 flex justify-center">
       <div className="mx-4 lg:mx-4 rounded-lg w-full flex flex-col overflow-y-auto h-[calc(100vh-8rem)]">
         {allUsers && allUsers.length > 0 ? (
-          <div className="flex w-full justify-between">
+          <div className="flex flex-wrap gap-10  justify-center lg:justify-start">
             {" "}
             {allUsers.map((user) => {
-              return <PeopleCard user={user} />;
+              return <PeopleCard user={user} kay={user!.id} />;
             })}
           </div>
         ) : (

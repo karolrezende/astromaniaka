@@ -63,7 +63,7 @@ const Post = ({ post }: { post: postType }) => {
           )}
         </div>
       </div>
-      <div className="p-3">
+      <div className="p-3 bg-gray-300/40 rounded-lg mx-3 py-4 mt-3">
         <h2 className="text-2xl border-b-2 border-gray-700 py-2">
           {post.title}
         </h2>

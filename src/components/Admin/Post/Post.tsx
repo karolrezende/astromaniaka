@@ -18,7 +18,7 @@ const Post = ({ post }: { post: postType }) => {
   };
 
   return (
-    <div className="bg-gray-500 py-2 mr-3 rounded-lg">
+    <div className="border-2 border-gray-500 py-2 mr-3 rounded-lg">
       <div className="px-4 flex justify-between items-center">
         <div className="">
           <div className="flex items-center gap-3 ">

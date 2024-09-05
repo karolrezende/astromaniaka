@@ -18,12 +18,14 @@ const ConfigsBody = () => {
 
   const [name, setName] = useState(userData?.name);
   const [email, setEmail] = useState(userData?.email);
+  const [description, setDescription] = useState(userData?.description);
 
   const [deleteUser, setDeleteUser] = useState(false);
   useEffect(() => {
     if (userData) {
       setName(userData.name);
       setEmail(userData.email);
+      setDescription(userData.description);
     }
   }, [userData]);
 
@@ -31,7 +33,11 @@ const ConfigsBody = () => {
     setIsLoading(true);
     try {
       if (userData && token) {
-        const editedPost = await editUser(userData.id, { name, email }, token);
+        const editedPost = await editUser(
+          userData.id,
+          { name, email, description },
+          token
+        );
         if (editedPost) {
           setPopupMessage("Perfil editado com sucesso!");
         } else {
@@ -91,13 +97,28 @@ const ConfigsBody = () => {
                   <Pencil className="cursor-pointer" />
                 </div>
               </div>
+              <div className="flex flex-col mt-2">
+                <label className="text-xs ml-1" htmlFor="email">
+                  Descrição
+                </label>
+                <div className="flex border-2 rounded-2xl items-center px-2 py-1 border-zinc-700">
+                  <textarea
+                    id="description"
+                    placeholder="Digite algo"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className=" rounded-lg p-1 px-2 outline-none "
+                  />
+                  <Pencil className="cursor-pointer" />
+                </div>
+              </div>
             </div>
 
             <Button className="px-2 w-full mt-4" onClick={handleEditUser}>
               {isLoading ? "Aguarde..." : "Editar perfil"}
             </Button>
             <Button
-              className=" w-full mt-2 bg-transparent border-2 hover:bg-slate-100 border-red-500 text-red-500 "
+              className="px-2 w-full mt-2 bg-transparent  hover:bg-red-600 bg-red-500 "
               onClick={handleDeleteUser}
             >
               Excluir perfil

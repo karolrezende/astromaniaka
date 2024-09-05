@@ -9,6 +9,7 @@ export type userWithoutPassword = {
   id: string;
   name: string;
   email: string;
+  description: string;
   picture?: string;
   access_level: string;
   createdAt: Date;

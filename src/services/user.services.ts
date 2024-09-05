@@ -20,6 +20,21 @@ export const getAllUser = async () => {
     return err.request.status;
   }
 };
+export const getUserById = async (id: string) => {
+  try {
+    const res = await baseURL.get(`/users/user/${id}`);
+
+    if (res.status !== 200 && res.status !== 201) {
+      return res.status;
+    }
+
+    console.log("res", res);
+    return res.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    return err.request.status;
+  }
+};
 
 export const registerUser = async (data: userRegister) => {
   try {
@@ -43,7 +58,15 @@ export const registerUser = async (data: userRegister) => {
 
 export const editUser = async (
   id: string,
-  { name, email }: { name: string | undefined; email: string | undefined },
+  {
+    name,
+    email,
+    description,
+  }: {
+    name: string | undefined;
+    email: string | undefined;
+    description: string | undefined;
+  },
   token: string
 ) => {
   try {
@@ -52,6 +75,7 @@ export const editUser = async (
       {
         name,
         email,
+        description,
       },
       {
         headers: {

@@ -67,22 +67,24 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
     }
   };
 
-  const handleCreatePost = async () => {
+  const handleCreatePost = async (event: React.FormEvent) => {
+    event.preventDefault();
+
     const data: postRegisterType = {
       userId: userData?.id!,
       post_type: typePost ? (typePost as Type_post_enum) : undefined,
       title: postBody.title,
       description: postBody.description,
     };
-    if (!data.description || !data.title) {
-      setPopup(true);
-      setPopupMessage(
-        "Os campos de título e descrição precisam ser preenchidos!"
-      );
-      return;
-    }
 
     try {
+      if (!data.description || !data.title) {
+        setPopup(true);
+        setPopupMessage(
+          "Os campos de título e descrição precisam ser preenchidos!"
+        );
+        return;
+      }
       const newPost = await createPost(token, data as postRegisterType);
 
       if (newPost) {
@@ -145,7 +147,7 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
           </div>
           <button
             className="bg-slate-800/90 text-white rounded-md py-2 active:bg-slate-900"
-            onClick={() => handleCreatePost()}
+            onClick={(event) => handleCreatePost(event)}
           >
             Publicar
           </button>

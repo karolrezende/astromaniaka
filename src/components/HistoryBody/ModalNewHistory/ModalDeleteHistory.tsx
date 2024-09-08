@@ -41,7 +41,7 @@ const ModalDeleteHistory = ({
           Deseja realmente deletar a publicação?
         </h1>
         <p className="text-md  mt-2">"{history.title}"</p>
-        <Button onClick={() => handleDeleteHistory()}>Editar</Button>
+        <Button onClick={() => handleDeleteHistory()}>Apagar</Button>
       </div>
       {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}
     </ModalPostLayout>

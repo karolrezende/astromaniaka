@@ -1,6 +1,6 @@
 import { useData } from "@/providers/DataProvider";
 import { isAdmin } from "@/utils/isAdmin";
-import { BookOpen, Handshake, Home, Images } from "lucide-react";
+import { BookOpen, Handshake, Home, Images, Telescope } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const SidebarBody = () => {
@@ -29,6 +29,14 @@ const SidebarBody = () => {
             <div className="flex gap-2 px-4">
               <Handshake />
               Rede
+            </div>
+          </li>
+        </Link>
+        <Link to={"/astronomers"}>
+          <li className="flex gap-2 text-lg cursor-pointer hover:bg-slate-700 select-none items-center px-1 py-2 mx-2 rounded-xl">
+            <div className="flex gap-2 px-4">
+              <Telescope />
+              Astrônomos
             </div>
           </li>
         </Link>

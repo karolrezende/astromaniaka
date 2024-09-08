@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import Button from "@/components/common/Button/Button";
 import Popup from "@/components/common/Popup/Popup";

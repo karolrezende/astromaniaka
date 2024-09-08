@@ -14,14 +14,23 @@ const AstronomersRegister = () => {
   const [astronomer, setAstronomer] = useState({
     name: "",
     description: "",
-    birthDate: "",
+    birthday: "",
   });
 
   const handleRegisterAstronomer = async () => {
     try {
+      if(  astronomer.name ==''||
+        astronomer.description ==''||
+        astronomer.birthday ==''){
+          setPopup(true)
+          setPopupMessage("Todos os campos são obrigatórios!");
+          return
+        }
       if (token) {
-        const editedPost = await registerAstronomer(astronomer, token);
-        if (editedPost) {
+        const newAstronomer = await registerAstronomer(astronomer, token);
+        console.log(newAstronomer)
+        console.log(newAstronomer)
+        if (newAstronomer.name) {
           setPopupMessage("Astronomo cadastrado com sucesso!");
         } else {
           setPopupMessage("Não foi possível cadastrar astronomo");
@@ -87,11 +96,11 @@ const AstronomersRegister = () => {
                     id="description"
                     type="date"
                     placeholder="Escolha a data de nascimento"
-                    value={astronomer.birthDate}
+                    value={astronomer.birthday}
                     onChange={(e) =>
                       setAstronomer({
                         ...astronomer,
-                        birthDate: e.target.value,
+                        birthday: e.target.value,
                       })
                     }
                     className=" rounded-lg p-1 px-2 outline-none bg-transparent"

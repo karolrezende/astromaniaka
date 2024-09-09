@@ -12,6 +12,7 @@ export type userWithoutPassword = {
   description: string;
   picture?: string;
   access_level: string;
+  astronomers: any[],
   createdAt: Date;
   deletedAt: Date;
 };

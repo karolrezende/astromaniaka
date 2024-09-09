@@ -21,7 +21,7 @@ const PeopleBody = () => {
           <div className="flex flex-wrap gap-10  justify-center lg:justify-start">
             {" "}
             {allUsers.map((user) => {
-              return <PeopleCard user={user} kay={user!.id} />;
+              return <PeopleCard user={user} key={user!.id} />;
             })}
           </div>
         ) : (

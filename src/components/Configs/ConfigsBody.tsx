@@ -118,7 +118,7 @@ const ConfigsBody = () => {
               {isLoading ? "Aguarde..." : "Editar perfil"}
             </Button>
             <Button
-              className="px-2 w-full mt-2 bg-transparent  hover:bg-red-600 bg-red-500 "
+              className="px-2 w-full mt-2 bg-red-600 hover:bg-red-700 bg-red-500 "
               onClick={handleDeleteUser}
             >
               Excluir perfil

@@ -44,7 +44,9 @@ const HistoryBody = () => {
         )}
         <div className="grid gap-2 grid-flow-col">
           {allHistory && allHistory.length > 0 ? (
-            allHistory.map((history) => <History history={history} />)
+            allHistory.map((history, index) => (
+              <History key={index} history={history} />
+            ))
           ) : (
             <p className="text-gray-200/50">Ainda sem posts..</p>
           )}

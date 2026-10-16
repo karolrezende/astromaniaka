@@ -6,6 +6,7 @@ import RemoveAstronomerModal from "./RemoveAstronomerModal";
 import ProfilePic from "../common/ProfilePic/ProfilePic";
 import { Plus, Settings, Telescope, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import MyPosts from "./MyPosts";
 
 const ProfileBody = () => {
   const { userData } = useData();
@@ -89,6 +90,8 @@ const ProfileBody = () => {
             })}
           </div>
         </div>
+
+        <MyPosts />
       </div>
       {isModal && (
         <SelectAstronomerModal

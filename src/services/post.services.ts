@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import baseURL from "@/environments/baseURL";
-import { postRegisterType, postType } from "@/types/post.types";
+import {
+  feedPageType,
+  myPostType,
+  postRegisterType,
+  postType,
+} from "@/types/post.types";
 
 export const createPost = async (
   token: string | null,
@@ -32,17 +37,39 @@ export const createPost = async (
   }
 };
 
-export const getAllPosts = async (token: string) => {
-  try {
-    const response = await baseURL.get<postType[]>("/posts", {
+export const getFeed = async (
+  token: string,
+  params: { page: number; limit?: number; search?: string; type?: string }
+) => {
+  const response = await baseURL.get<feedPageType>("/posts", {
+    params: { limit: 10, ...params },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+export const toggleLike = async (id: string, token: string) => {
+  const response = await baseURL.post<{ liked: boolean; likesCount: number }>(
+    `posts/${id}/like`,
+    {},
+    {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch posts", error);
-  }
+    }
+  );
+  return response.data;
+};
+
+export const getMyPosts = async (token: string) => {
+  const response = await baseURL.get<myPostType[]>("/posts/mine", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
 };
 
 export const getPostById = async (id: string, token: string) => {

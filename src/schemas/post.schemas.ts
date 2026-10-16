@@ -1,6 +1,16 @@
-import { userRegisterSchema } from "./user.schemas";
 import { Type_post_enum } from "@/utils/enums";
 import { z } from "zod";
+
+export const postCommentSchema = z.object({
+  id: z.string(),
+  description: z.string(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date().nullish(),
+  user: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+});
 
 export const postSchema = z.object({
   id: z.string(),
@@ -16,14 +26,9 @@ export const postSchema = z.object({
     id: z.string(),
     name: z.string(),
   }),
-  comments: z.array(
-    z.object({
-      id: z.string(),
-      description: z.string(),
-      createdAt: z.date(),
-      user: userRegisterSchema, // Referenciando o schema de usuário
-    })
-  ),
+  likesCount: z.number().optional(),
+  likedByMe: z.boolean().optional(),
+  comments: z.array(postCommentSchema).nullish(),
 });
 export const postRegisterSchema = postSchema.omit({
   id: true,
@@ -31,4 +36,7 @@ export const postRegisterSchema = postSchema.omit({
   user: true,
   createdAt: true,
   deletedAt: true,
+  likesCount: true,
+  likedByMe: true,
+  comments: true,
 });

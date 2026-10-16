@@ -21,3 +21,13 @@ export type userPassword = {
   password: string;
   confirmPassword: string;
 };
+
+export type adminUserType = {
+  id: string
+  name: string
+  email: string
+  access_level: "ADMIN" | "USER"
+  createdAt: string
+  postsCount: number
+  commentsCount: number
+}

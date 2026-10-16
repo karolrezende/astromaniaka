@@ -30,3 +30,28 @@ export const createComment = async (
     return err.request.status;
   }
 };
+
+export const editComment = async (
+  id: string,
+  description: string,
+  token: string
+) => {
+  const res = await baseURL.put(
+    `/comment/${id}`,
+    { description },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res.data;
+};
+
+export const deleteComment = async (id: string, token: string) => {
+  await baseURL.delete(`/comment/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

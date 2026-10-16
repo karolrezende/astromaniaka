@@ -1,14 +1,19 @@
 import Button from "@/components/common/Button/Button";
 import Popup from "@/components/common/Popup/Popup";
+import AuthGuard from "@/guards/AuthGuard";
 import StarsLayout from "@/layout/StarsLayout/StarsLayout";
+import { useAuth } from "@/providers/AuthProvider";
 import { editPassword } from "@/services/user.services";
+import { userPassword } from "@/types/user.types";
+import axios from "axios";
 import { KeyRound } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Password = () => {
-  const [passwordData, setPasswordData] = useState({
-    email: "",
+  const { token } = useAuth();
+  const [passwordData, setPasswordData] = useState<userPassword>({
+    currentPassword: "",
     password: "",
     confirmPassword: "",
   });
@@ -19,30 +24,37 @@ const Password = () => {
     "Não foi possível alterar a senha"
   );
 
-  const handleEditPost = async () => {
-    setIsLoading(true);
+  const showMessage = (message: string) => {
+    setPopupMessage(message);
+    setPopup(true);
+  };
 
+  const handleEditPassword = async () => {
     if (
-      !passwordData.email ||
+      !passwordData.currentPassword ||
       !passwordData.password ||
       !passwordData.confirmPassword
     ) {
-      setPopupMessage("Preencha todos os campos");
-      setPopup(true);
-      setIsLoading(false);
+      showMessage("Preencha todos os campos");
       return;
     }
+    if (passwordData.password !== passwordData.confirmPassword) {
+      showMessage("As senhas não coincidem");
+      return;
+    }
+    if (!token) return;
+
+    setIsLoading(true);
     try {
-      const editedPassword = await editPassword(passwordData);
-      setPopup(true);
-      if (editedPassword) {
-        setPopupMessage("Senha alterada com sucesso!");
-      } else {
-        setPopupMessage("Não foi possível alterar a senha");
-      }
+      await editPassword(passwordData, token);
+      setPasswordData({ currentPassword: "", password: "", confirmPassword: "" });
+      showMessage("Senha alterada com sucesso!");
     } catch (error) {
-      setPopup(true);
-      setPopupMessage("Não foi possível alterar a senha");
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        showMessage("Senha atual incorreta");
+      } else {
+        showMessage("Não foi possível alterar a senha");
+      }
     }
     setIsLoading(false);
   };
@@ -53,57 +65,58 @@ const Password = () => {
     type: string;
     placeholder: string;
   }[] = [
-    { id: "email", label: "E-mail", type: "email", placeholder: "voce@exemplo.com" },
+    { id: "currentPassword", label: "Senha atual", type: "password", placeholder: "Digite sua senha atual" },
     { id: "password", label: "Nova senha", type: "password", placeholder: "Digite a nova senha" },
     { id: "confirmPassword", label: "Repetir senha", type: "password", placeholder: "Repita a nova senha" },
   ];
 
   return (
-    <StarsLayout>
-      <div className="glass mx-4 w-full max-w-md animate-fade-in p-8 sm:p-10">
-        <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-accent text-white shadow-glow">
-          <KeyRound size={22} />
-        </span>
-        <h1 className="mt-6 text-2xl font-semibold text-white">Alterar senha</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          Informe seu e-mail e escolha uma nova senha.
-        </p>
-        <div className="mt-8 flex flex-col gap-4">
-          {fields.map((field) => (
-            <div key={field.id}>
-              <label className="field-label" htmlFor={field.id}>
-                {field.label}
-              </label>
-              <input
-                id={field.id}
-                type={field.type}
-                placeholder={field.placeholder}
-                value={passwordData[field.id]}
-                onChange={(e) =>
-                  setPasswordData((prev) => ({
-                    ...prev,
-                    [field.id]: e.target.value,
-                  }))
-                }
-                className="field"
-              />
-            </div>
-          ))}
+    <AuthGuard>
+      <StarsLayout>
+        <div className="glass mx-4 w-full max-w-md animate-fade-in p-8 sm:p-10">
+          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-accent text-white shadow-glow">
+            <KeyRound size={22} />
+          </span>
+          <h1 className="mt-6 text-2xl font-semibold text-white">Alterar senha</h1>
+          <p className="mt-1 text-sm text-slate-400">
+            Confirme sua senha atual e escolha uma nova.
+          </p>
+          <div className="mt-8 flex flex-col gap-4">
+            {fields.map((field) => (
+              <div key={field.id}>
+                <label className="field-label" htmlFor={field.id}>
+                  {field.label}
+                </label>
+                <input
+                  id={field.id}
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  value={passwordData[field.id]}
+                  onChange={(e) =>
+                    setPasswordData((prev) => ({
+                      ...prev,
+                      [field.id]: e.target.value,
+                    }))
+                  }
+                  className="field"
+                />
+              </div>
+            ))}
+          </div>
+
+          <Button className="mt-8 w-full" onClick={handleEditPassword} disabled={isLoading}>
+            {isLoading ? "Aguarde..." : "Alterar senha"}
+          </Button>
+          <p className="mt-6 text-center text-sm text-slate-400">
+            <Link to={"/configs"} className="link">
+              Voltar para as configurações
+            </Link>
+          </p>
+
+          {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}
         </div>
-
-        <Button className="mt-8 w-full" onClick={handleEditPost} disabled={isLoading}>
-          {isLoading ? "Aguarde..." : "Alterar senha"}
-        </Button>
-        <p className="mt-6 text-center text-sm text-slate-400">
-          Lembrou?{" "}
-          <Link to={"/login"} className="link">
-            Voltar para o login
-          </Link>
-        </p>
-
-        {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}
-      </div>
-    </StarsLayout>
+      </StarsLayout>
+    </AuthGuard>
   );
 };
 

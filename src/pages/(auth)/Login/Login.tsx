@@ -70,9 +70,6 @@ const Login = () => {
               register={register}
               placeholder="Sua senha"
             />
-            <Link to={"/password"} className="link -mt-1 self-end text-xs">
-              Esqueci minha senha
-            </Link>
             <Button className="mt-4 w-full" disabled={isSubmitting}>
               {isSubmitting ? "Entrando..." : "Entrar"}
             </Button>

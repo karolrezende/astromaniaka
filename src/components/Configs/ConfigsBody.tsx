@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { useData } from "@/providers/DataProvider";
 import { editUser } from "@/services/user.services";
 import Popup from "../common/Popup/Popup";
-import { TriangleAlert } from "lucide-react";
+import { KeyRound, TriangleAlert } from "lucide-react";
+import { Link } from "react-router-dom";
 import DeleteUser from "./DeleteUser";
 
 const ConfigsBody = () => {
@@ -113,6 +114,23 @@ const ConfigsBody = () => {
           <Button className="mt-6 w-full sm:w-auto" onClick={handleEditUser} disabled={isLoading}>
             {isLoading ? "Salvando..." : "Salvar alterações"}
           </Button>
+        </div>
+
+        <div className="glass p-6 sm:p-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex gap-3">
+              <KeyRound className="mt-0.5 shrink-0 text-nebula-300" size={20} />
+              <div>
+                <h2 className="font-semibold text-white">Senha</h2>
+                <p className="text-sm text-slate-400">
+                  Para trocar a senha, confirme a atual.
+                </p>
+              </div>
+            </div>
+            <Link to={"/password"} className="btn-secondary shrink-0">
+              Alterar senha
+            </Link>
+          </div>
         </div>
 
         <div className="glass border-rose-500/20 p-6 sm:p-8">

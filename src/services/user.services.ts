@@ -5,9 +5,13 @@ import {
   userWithoutPassword,
 } from "@/types/user.types";
 
-export const getAllUser = async () => {
+export const getAllUser = async (token: string) => {
   try {
-    const res = await baseURL.get("/users");
+    const res = await baseURL.get("/users", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (res.status !== 200 && res.status !== 201) {
       return res.status;
@@ -20,9 +24,13 @@ export const getAllUser = async () => {
     return err.request.status;
   }
 };
-export const getUserById = async (id: string) => {
+export const getUserById = async (id: string, token: string) => {
   try {
-    const res = await baseURL.get(`/users/user/${id}`);
+    const res = await baseURL.get(`/users/user/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (res.status !== 200 && res.status !== 201) {
       return res.status;
@@ -89,21 +97,23 @@ export const editUser = async (
   }
 };
 
-export const editPassword = async (data: {
-  email: string;
-  password: string;
-  confirmPassword: string;
-}) => {
-  try {
-    const response = await baseURL.post<userPassword>(`users/password`, {
-      email: data.email,
+// Troca a senha do usuário logado. Lança o erro do axios para a página
+// diferenciar senha atual incorreta (401) de outros problemas.
+export const editPassword = async (data: userPassword, token: string) => {
+  const response = await baseURL.post(
+    `users/password`,
+    {
+      currentPassword: data.currentPassword,
       password: data.password,
       confirmPassword: data.confirmPassword,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch post", error);
-  }
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
 };
 
 export const deleteUser = async (id: string, token: string) => {

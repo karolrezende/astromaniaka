@@ -3,18 +3,21 @@ import { ArrowLeft, Telescope, UserX } from "lucide-react";
 import ProfilePic from "../common/ProfilePic/ProfilePic";
 import { useEffect, useState } from "react";
 import { getUserById } from "@/services/user.services";
+import { useAuth } from "@/providers/AuthProvider";
 
 const PersonBody = () => {
   const url = window.location.href;
   const id = url.split("/person/")[1];
+  const { token } = useAuth();
   const [user, setUser] = useState<any>();
   useEffect(() => {
+    if (!token) return;
     const fetchUser = async () => {
-      const user = await getUserById(id);
+      const user = await getUserById(id, token);
       setUser(user);
     };
     fetchUser();
-  }, [id]);
+  }, [id, token]);
   return (
     <section className="page">
       <div className="page-inner max-w-3xl">

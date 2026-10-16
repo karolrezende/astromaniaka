@@ -1,20 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getAllUser } from "@/services/user.services";
+import { useAuth } from "@/providers/AuthProvider";
 import { useEffect, useState } from "react";
 import PeopleCard from "./PeopleCard";
 import { Users } from "lucide-react";
 
 const PeopleBody = () => {
+  const { token } = useAuth();
   const [allUsers, setAllUsers] = useState<any[]>([]);
 
   useEffect(() => {
+    if (!token) return;
     const fetchPosts = async () => {
-      const users = await getAllUser();
+      const users = await getAllUser(token);
       setAllUsers(users);
     };
 
     fetchPosts();
-  }, []);
+  }, [token]);
 
   return (
     <section className="page">

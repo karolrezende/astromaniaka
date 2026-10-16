@@ -17,7 +17,7 @@ export type userWithoutPassword = {
   deletedAt: Date;
 };
 export type userPassword = {
-  email: string;
+  currentPassword: string;
   password: string;
   confirmPassword: string;
 };

@@ -44,14 +44,19 @@ const RemoveAstronomerModal = ({
   };
   return (
     <ModalPostLayout handleModalPost={handleRemoveAstronomerModal}>
-      <div>
-        <h1 className="text-lg font-bold">
-          Deseja realmente remover o astronomo <br /> abaixo do seu perfil?
+      <div className="flex flex-col items-center text-center">
+        <h1 className="text-lg font-semibold text-white">
+          Remover dos favoritos?
         </h1>
-        <p>"{astronomer.name}"</p>
-        <Button className="w-full" onClick={() => handleDeleteAstronomer()}>
-          Confirmar
-        </Button>
+        <p className="mt-1 text-sm text-slate-400">"{astronomer.name}"</p>
+        <div className="mt-6 grid w-full grid-cols-2 gap-3">
+          <button type="button" className="btn-secondary" onClick={handleRemoveAstronomerModal}>
+            Cancelar
+          </button>
+          <Button variant="danger" onClick={() => handleDeleteAstronomer()}>
+            Remover
+          </Button>
+        </div>
       </div>
       {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}
     </ModalPostLayout>

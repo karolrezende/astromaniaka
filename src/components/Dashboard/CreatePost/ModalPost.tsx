@@ -3,7 +3,7 @@ import { useData } from "@/providers/DataProvider";
 import ProfilePic from "@/components/common/ProfilePic/ProfilePic";
 import ModalPostLayout from "@/layout/ModalPostLayout/ModalPostLayout";
 
-import { CircleDot, Smile } from "lucide-react";
+import { Shapes, Smile } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import ModalEmoji from "./TypePost/ModalEmoji";
@@ -11,6 +11,7 @@ import { postRegisterType } from "@/types/post.types";
 import ModalTypePost from "./TypePost/ModalTypePost";
 import { createPost } from "@/services/post.services";
 import { Type_post_enum } from "@/utils/enums";
+import { getPostTypeMeta } from "@/utils/postTypes";
 import Popup from "@/components/common/Popup/Popup";
 import { useAuth } from "@/providers/AuthProvider";
 
@@ -29,7 +30,7 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPostBody((prevState) => ({
       ...prevState,
       title: event.target.value,
@@ -89,7 +90,7 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
 
       if (newPost) {
         setPopup(true);
-        setPopupMessage("Post criado com sucesso!");
+        setPopupMessage("Post enviado! Ele aparece no feed após aprovação.");
       }
 
       setTimeout(() => {
@@ -101,65 +102,81 @@ const ModalPost = ({ handleModalPost }: { handleModalPost: () => void }) => {
     }
   };
 
+  const toolClass = (active: boolean) =>
+    `icon-btn border ${
+      active
+        ? "border-nebula-400/50 bg-nebula-500/15 text-nebula-300"
+        : "border-white/10"
+    }`;
+
   return (
     <ModalPostLayout handleModalPost={handleModalPost}>
-      <div className="flex flex-col gap-3 md:w-[30rem]">
-        <header className="flex items-center gap-2">
-          <ProfilePic bg={"bg-slate-900 text-white"} name={userData?.name} />
-          <h2 className="font-bold text-slate-900 text-xl ">
-            {userData ? userData.name : "Astromaniako"}
-          </h2>
+      <div className="flex flex-col gap-5">
+        <header className="flex items-center gap-3 pr-8">
+          <ProfilePic name={userData?.name} />
+          <div>
+            <h2 className="text-base font-semibold text-white">
+              {userData ? userData.name : "Astromaniako"}
+            </h2>
+            <p className="text-xs text-slate-400">Nova publicação</p>
+          </div>
         </header>
-        <form className="flex flex-col gap-3">
-          <div className="flex flex-col mt-2">
-            <textarea
-              className="rounded-xl h-8 flex items-center resize-none placeholder:text-md placeholder:font-medium outline-none font-bold text-lg"
+        <form className="flex flex-col gap-4" onSubmit={handleCreatePost}>
+          <div className="flex flex-col gap-2">
+            <input
+              className="w-full bg-transparent font-display text-xl font-semibold text-white outline-none placeholder:text-slate-500"
               placeholder="Título"
+              value={postBody.title}
               onChange={handleTitleChange}
             />
             <textarea
               ref={inputRef}
               value={postBody.description}
               onChange={handleDescriptionChange}
-              className="rounded-xl resize-none placeholder:text-base outline-none"
+              rows={5}
+              className="w-full resize-none bg-transparent text-sm leading-relaxed text-slate-200 outline-none placeholder:text-slate-500"
               placeholder="Deixe suas ideias brilharem como estrelas ☆"
             ></textarea>
           </div>
 
-          <div className="border p-1 flex justify-between gap-2 border-slate-900/60 rounded-lg items-center">
-            <p className="px-1">Adicionar a publicação</p>
-            <div className="flex gap-3">
-              <div
+          <div className="surface flex items-center justify-between gap-2 px-3 py-2">
+            <div className="flex items-center gap-2 text-xs text-slate-400">
+              <span>Tipo:</span>
+              <span className={`chip ${getPostTypeMeta(typePost).chip}`}>
+                {getPostTypeMeta(typePost).label}
+              </span>
+            </div>
+            <div className="flex gap-2">
+              <button
+                type="button"
                 onClick={() => handleOpenEmoji()}
                 title="Emoji"
-                className="border border-slate-900/60 hover:border-slate-900/80 rounded-full p-1 text-slate-900/50 hover:text-slate-900/80 cursor-pointer"
+                className={toolClass(isOpenEmoji)}
               >
-                <Smile size={20} />
-              </div>
-              <div
+                <Smile size={18} />
+              </button>
+              <button
+                type="button"
                 onClick={() => handleOpenTypePost()}
-                title="Tipo de Post"
-                className="border border-slate-900/60 hover:border-slate-900/80 rounded-full p-1 text-slate-900/50 hover:text-slate-900/80 cursor-pointer"
+                title="Tipo de post"
+                className={toolClass(isOpenTypePost)}
               >
-                <CircleDot size={20} />
-              </div>
+                <Shapes size={18} />
+              </button>
             </div>
           </div>
-          <button
-            className="bg-slate-800/90 text-white rounded-md py-2 active:bg-slate-900"
-            onClick={(event) => handleCreatePost(event)}
-          >
+          {isOpenTypePost && (
+            <ModalTypePost
+              handleOpenTypePost={handleOpenTypePost}
+              typePost={typePost}
+            />
+          )}
+          <button className="btn-primary w-full" type="submit">
             Publicar
           </button>
         </form>
       </div>
       {isOpenEmoji && <ModalEmoji handleOpenEmoji={handleOpenEmoji} />}
-      {isOpenTypePost && (
-        <ModalTypePost
-          handleOpenTypePost={handleOpenTypePost}
-          typePost={typePost}
-        />
-      )}
 
       {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}
     </ModalPostLayout>

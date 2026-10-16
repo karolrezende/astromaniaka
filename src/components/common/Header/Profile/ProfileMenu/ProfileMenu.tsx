@@ -2,31 +2,34 @@ import { useAuth } from "@/providers/AuthProvider";
 import { LogOut, Settings, User } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const itemClass =
+  "flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-300 transition hover:bg-white/[0.06] hover:text-white";
+
 const ProfileMenu = () => {
   const { signout } = useAuth();
 
   return (
-    <div className="bg-white rounded-lg p-2 absolute top-[6.3rem] right-9 select-none">
-      <ul className="flex flex-col  ">
+    <div className="glass-strong absolute right-0 top-[calc(100%+0.75rem)] z-30 w-56 animate-fade-in select-none p-1.5">
+      <ul className="flex flex-col">
         <Link to={"/profile"}>
-          <li className="flex cursor-pointer hover:bg-gray-200 px-3 py-2 rounded-lg gap-1 text-md justify-start items-center">
-            <User />
+          <li className={itemClass}>
+            <User size={18} />
             Meu perfil
           </li>
         </Link>
         <Link to={"/configs"}>
-          <li className="flex cursor-pointer hover:bg-gray-200 px-3 py-2 rounded-lg gap-1 text-md justify-start items-center">
-            <Settings />
+          <li className={itemClass}>
+            <Settings size={18} />
             Configurações
           </li>
         </Link>
 
-        <div className="w-full h-[0.5px] my-1 bg-black/20"></div>
+        <div className="my-1 h-px w-full bg-white/10"></div>
         <li
-          className="flex cursor-pointer hover:bg-gray-200 px-3 py-2 rounded-lg gap-1 text-md justify-start items-center hover:text-red-600"
+          className={`${itemClass} hover:bg-rose-500/10 hover:text-rose-300`}
           onClick={() => signout()}
         >
-          <LogOut />
+          <LogOut size={18} />
           Sair
         </li>
       </ul>

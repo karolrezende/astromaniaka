@@ -1,6 +1,6 @@
-import  { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import './index.css'
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { CircleCheck, LucideIcon } from 'lucide-react';
+import { createPortal } from 'react-dom';
 
 const Popup = ({ message, setMessage, duration = 3000, Icon }: { message: string, duration?: number, Icon?: LucideIcon, setMessage: Dispatch<SetStateAction<string>> }) => {
     const [visible, setVisible] = useState(message ? true : false);
@@ -17,13 +17,17 @@ const Popup = ({ message, setMessage, duration = 3000, Icon }: { message: string
         }
     }, [message, duration]);
 
-    return (
-        <div className={`popup px-5 font-medium text-nowrap text-blue-900 rounded-lg p-2 bg-white ${visible ? 'flex' : 'hidden'}`} >
-            <div className='flex gap-2 items-center justify-center'>
-                {Icon ? <Icon size={20}/> : <CircleCheck className='text-blue-900' size={20}/>}
-                {message}
-            </div>
-        </div>
+    return createPortal(
+        <div
+            role="status"
+            className={`glass-strong fixed right-4 top-4 z-50 animate-toast-in items-center gap-3 px-4 py-3 text-sm font-medium text-slate-100 ${visible ? 'flex' : 'hidden'}`}
+        >
+            <span className='flex h-7 w-7 items-center justify-center rounded-full bg-gradient-accent text-white'>
+                {Icon ? <Icon size={16} /> : <CircleCheck size={16} />}
+            </span>
+            {message}
+        </div>,
+        document.body
     );
 };
 

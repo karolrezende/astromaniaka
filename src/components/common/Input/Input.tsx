@@ -17,11 +17,19 @@ const Input = ({
   register,
 }: InputProps) => {
   return (
-    <>
-      <label htmlFor={name} className='text-sm font-semibold text-blue-700'>{label}</label>
-      <input className='border text-blue-800 py-1 rounded outline-blue-500/60 pl-4' type={type} id={name} {...register(name)} placeholder={placeholder} />
-      <p className="my-0.5 text-red-900 text-sm">{errors || '\u00A0'}</p>
-    </>
+    <div className="flex flex-col">
+      <label htmlFor={name} className="field-label">
+        {label}
+      </label>
+      <input
+        className={`field ${errors ? "border-rose-400/60 focus:border-rose-400/70 focus:ring-rose-500/15" : ""}`}
+        type={type}
+        id={name}
+        {...register(name)}
+        placeholder={placeholder}
+      />
+      <p className="field-error">{errors || " "}</p>
+    </div>
   );
 };
 

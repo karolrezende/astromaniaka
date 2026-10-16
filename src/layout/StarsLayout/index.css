@@ -1,8 +1,22 @@
-html{
+html {
     overflow: hidden;
 }
-#star{
-    background: radial-gradient(ellipse at bottom, #100B1F 0%,#090a0f 100%);
+
+#star {
+    position: relative;
+    background:
+        radial-gradient(ellipse 60% 50% at 15% 0%, rgba(124, 58, 237, 0.22), transparent 70%),
+        radial-gradient(ellipse 50% 40% at 90% 100%, rgba(217, 70, 239, 0.14), transparent 70%),
+        radial-gradient(ellipse at bottom, #100D20 0%, #05040B 100%);
+}
+
+/* As camadas de estrelas ficam atrás do conteúdo e não capturam cliques */
+#stars, #stars2, #stars3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.7;
 }
 #stars {
     width: 1px;
@@ -496,7 +510,7 @@ html{
     width: 3px;
     height: 3px;
     background: transparent;
-    animation: animStar 150s linear infinte;
+    animation: animStar 150s linear infinite;
     box-shadow: 387px 1878px #fff, 760px 1564px #fff, 1487px 999px #fff,
     948px 1828px #fff, 1977px 1001px #fff, 1284px 1963px #fff, 656px 284px #fff,
     1268px 1635px #fff, 1820px 598px #fff, 642px 1900px #fff, 296px 57px #fff,
@@ -558,4 +572,13 @@ html{
     16px 1650px #fff, 1021px 1075px #fff, 723px 424px #fff, 1175px 41px #fff,
     494px 1957px #fff, 1296px 431px #fff, 175px 1507px #fff, 831px 121px #fff,
     498px 1947px #fff, 617px 880px #fff, 240px 403px #fff;
+}
+
+@keyframes animStar {
+    from { transform: translateY(0); }
+    to { transform: translateY(-2000px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #stars, #stars2, #stars3 { animation: none; }
 }

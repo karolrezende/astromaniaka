@@ -5,11 +5,13 @@ import { X } from 'lucide-react';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ModalEmoji = ({ handleOpenEmoji }: { handleOpenEmoji: (emoji?:any) => void }) => {
 
-    return (<section className="absolute z-30 md:ml-96 md:mt-32">
-        
-        <div className='bg-white p-2 flex flex-col rounded-lg'>
-            <X className='self-end cursor-pointer' onClick={handleOpenEmoji} />   
+    return (<section className="absolute inset-x-0 bottom-0 z-30 flex justify-center p-4">
+        <div className='glass-strong flex animate-fade-in flex-col p-2'>
+            <button type="button" aria-label="Fechar" className='icon-btn self-end' onClick={() => handleOpenEmoji()}>
+                <X size={16} />
+            </button>
             <Picker data={data}
+                theme="dark"
                 locale_ui
                 onEmojiSelect={handleOpenEmoji}
                 emoji="point_up"

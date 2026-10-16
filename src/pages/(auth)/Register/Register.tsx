@@ -1,6 +1,4 @@
-import slogan from "@/assets/brand/slogan.svg";
-
-// import initialPic from '@/assets/design/initial-profile-pic.jpg'
+import logo from "@/assets/brand/logo.svg";
 
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +24,7 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<userRegister>({
     resolver: zodResolver(userRegisterSchema),
   });
@@ -55,95 +53,65 @@ const Register = () => {
     }
   };
 
-  // const imageRef = useRef(null)
-  // const [image, setImage] = useState<File | undefined>(undefined)
-
-  // const handleImageClick = () => {
-  //     if (!imageRef.current) return
-  //     (imageRef.current as any).click();
-  // }
-
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-
-  //     if (!event.target.files) return
-  //     const image = event.target.files[0]
-  //     setImage(image)
-  // }
-
   return (
     <StarsLayout>
-      <div className="bg-white w-full mx-6 rounded-3xl lg:w-[40vw] xl:w-[40vw] h-[90h] lg:h-[80vh] flex items-center justify-between p-10 md:p-16 lg:gap-8">
-        <div className="w-full flex justify-center flex-col">
-          <img
-            src={slogan}
-            alt="Slogan Astromaniaka"
-            className="w-[30em] self-center"
+      <div className="glass mx-4 my-8 w-full max-w-md animate-fade-in p-8 sm:p-10">
+        <img src={logo} alt="Astromaniaka" className="mx-auto w-48" />
+        <h1 className="mt-8 text-center text-2xl font-semibold text-white">
+          Criar uma conta
+        </h1>
+        <p className="mt-1 text-center text-sm text-slate-400">
+          Junte-se a quem também vive olhando pro céu.
+        </p>
+        <form
+          onSubmit={handleSubmit(handleData)}
+          className="mt-8 flex flex-col gap-1"
+        >
+          <Input
+            label="Nome"
+            name={"name"}
+            register={register}
+            type="text"
+            errors={errors.name?.message}
+            placeholder="Como devemos te chamar?"
           />
-          <h1 className="text-blue-700 font-bold text-md my-3 mb-5 uppercase">
-            Criar uma conta
-          </h1>
-          <form
-            onSubmit={handleSubmit(handleData)}
-            className="flex flex-col my-1"
-          >
-            {/* <div className='flex items-center flex-col'>
-                    <label htmlFor="picture" className='text-sm font-semibold text-blue-700 '>Foto</label>
-                    {image ? (<Image width={60} height={60} src={URL.createObjectURL(image)} alt="Imagem de perfil" className={`max-w-16 rounded-full border cursor-pointer max-h-16`} onClick={() => handleImageClick()} />) : (<Image src={initialPic} alt="Fofinho" className={`w-16 rounded-full border cursor-pointer ${errors.picture && 'border-red-500'}`} onClick={() => handleImageClick()} />)}
-                    <input type="file" id='picture' accept="image/jpeg, image/jpg, image/png, image/webp" {...register('picture')} className='hidden' ref={imageRef} onChange={handleChange} />
-                </div> */}
-            <div className="flex flex-col w-full">
-              <Input
-                label="Nome"
-                name={"name"}
-                register={register}
-                type="text"
-                errors={errors.name?.message}
-                placeholder="Digite seu nome..."
-              />
-            </div>
-
+          <Input
+            label="E-mail"
+            name={"email"}
+            register={register}
+            type="text"
+            errors={errors.email?.message}
+            placeholder="voce@exemplo.com"
+          />
+          <div className="grid gap-x-3 sm:grid-cols-2">
             <Input
-              label="E-mail"
-              name={"email"}
+              name="password"
+              label="Senha"
+              type="password"
+              errors={errors.password?.message}
               register={register}
-              type="text"
-              errors={errors.email?.message}
-              placeholder="Digite seu email..."
+              placeholder="Crie uma senha"
             />
-
-            <div className="w-full flex flex-col">
-              <Input
-                name="password"
-                label="Senha"
-                type="password"
-                errors={errors.password?.message}
-                register={register}
-                placeholder="Digite sua senha..."
-              />
-            </div>
-            <div className="w-full flex flex-col">
-              <Input
-                name="confirm_password"
-                label="Confirme a senha"
-                type="password"
-                errors={errors.confirm_password?.message}
-                register={register}
-                placeholder="Digite sua senha..."
-              />
-            </div>
-
-            <Button className="w-full self-center mt-8">Cadastrar</Button>
-          </form>
-          <div className="w-full text-center mt-3">
-            <span className="text-sm">ou</span>
-            <br />
-            <span>
-              <Link to={"/login"} className="text-blue-900 hover:font-bold">
-                Faça seu login.
-              </Link>
-            </span>
+            <Input
+              name="confirm_password"
+              label="Confirme a senha"
+              type="password"
+              errors={errors.confirm_password?.message}
+              register={register}
+              placeholder="Repita a senha"
+            />
           </div>
-        </div>
+
+          <Button className="mt-4 w-full" disabled={isSubmitting}>
+            {isSubmitting ? "Cadastrando..." : "Cadastrar"}
+          </Button>
+        </form>
+        <p className="mt-6 text-center text-sm text-slate-400">
+          Já tem uma conta?{" "}
+          <Link to={"/login"} className="link">
+            Faça seu login
+          </Link>
+        </p>
 
         <Popup message={message} setMessage={setMessage} Icon={icon} />
       </div>

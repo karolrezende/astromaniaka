@@ -1,64 +1,61 @@
 import { useData } from "@/providers/DataProvider";
 import { isAdmin } from "@/utils/isAdmin";
-import { BookOpen, Handshake, Home, Images, Telescope } from "lucide-react";
-import { Link } from "react-router-dom";
+import {
+  BookOpen,
+  Home,
+  LucideIcon,
+  ShieldCheck,
+  Telescope,
+  Users,
+} from "lucide-react";
+import { NavLink } from "react-router-dom";
+
+const links: { to: string; label: string; Icon: LucideIcon }[] = [
+  { to: "/", label: "Início", Icon: Home },
+  { to: "/history", label: "Astronomia e história", Icon: BookOpen },
+  { to: "/people", label: "Rede", Icon: Users },
+  { to: "/astronomers", label: "Astrônomos", Icon: Telescope },
+];
+
+const linkClass = ({ isActive }: { isActive: boolean }) =>
+  `group flex select-none items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition ${
+    isActive
+      ? "bg-gradient-to-r from-nebula-500/25 to-stardust-500/10 text-white shadow-[inset_2px_0_0_0_#A78BFA]"
+      : "text-slate-400 hover:bg-white/[0.05] hover:text-slate-100"
+  }`;
 
 const SidebarBody = () => {
   const { userData } = useData();
   return (
-    <nav className="m- mt-12">
-      <ul className="flex flex-col gap-6 text-gray-300 font-semibold">
-        <Link to={"/"}>
-          <li className="flex gap-2 text-lg cursor-pointer hover:bg-slate-700 select-none items-center px-1 py-2 mx-2 rounded-xl">
-            <div className="flex gap-2 px-4">
-              <Home />
-              Homepage
-            </div>
+    <nav className="flex-1 px-3 py-6">
+      <p className="mb-3 px-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+        Explorar
+      </p>
+      <ul className="flex flex-col gap-1">
+        {links.map(({ to, label, Icon }) => (
+          <li key={to}>
+            <NavLink to={to} end className={linkClass}>
+              <Icon size={18} />
+              {label}
+            </NavLink>
           </li>
-        </Link>
-        <Link to={"/history"}>
-          <li className="flex gap-2 text-lg cursor-pointer hover:bg-slate-700 select-none items-center px-1 py-2 mx-2 rounded-xl">
-            <div className="flex gap-2 px-4">
-              <BookOpen />
-              Astronomia e história
-            </div>
-          </li>
-        </Link>
-        <Link to={"/people"}>
-          <li className="flex gap-2 text-lg cursor-pointer hover:bg-slate-700 select-none items-center px-1 py-2 mx-2 rounded-xl">
-            <div className="flex gap-2 px-4">
-              <Handshake />
-              Rede
-            </div>
-          </li>
-        </Link>
-        <Link to={"/astronomers"}>
-          <li className="flex gap-2 text-lg cursor-pointer hover:bg-slate-700 select-none items-center px-1 py-2 mx-2 rounded-xl">
-            <div className="flex gap-2 px-4">
-              <Telescope />
-              Astrônomos
-            </div>
-          </li>
-        </Link>
-        {/* <Link to={"/galery"}>
-          <li className="flex gap-2 text-lg cursor-pointer hover:bg-slate-700 select-none items-center px-1 py-2 mx-2 rounded-xl">
-            <div className="flex gap-2 px-4">
-              <Images />
-              Galeria espacial
-            </div>
-          </li>
-        </Link> */}
-        {isAdmin(userData) && (
-          <Link to={"/admin"}>
-            <li className="flex gap-2 text-lg cursor-pointer hover:bg-slate-700 select-none items-center px-1 py-2 mx-2 rounded-xl">
-              <div className="flex gap-2 px-4">
-                <Images />
-                Painel Administrativo
-              </div>
-            </li>
-          </Link>
-        )}
+        ))}
       </ul>
+      {isAdmin(userData) && (
+        <>
+          <p className="mb-3 mt-8 px-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+            Gestão
+          </p>
+          <ul>
+            <li>
+              <NavLink to={"/admin"} className={linkClass}>
+                <ShieldCheck size={18} />
+                Painel administrativo
+              </NavLink>
+            </li>
+          </ul>
+        </>
+      )}
     </nav>
   );
 };

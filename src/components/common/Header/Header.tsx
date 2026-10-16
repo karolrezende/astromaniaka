@@ -2,8 +2,8 @@ import Profile from "./Profile/Profile";
 
 const Header = () => {
   return (
-    <section className="py-4 px-4 lg:pl-80 fixed w-full">
-      <header className="w-full bg-gray-900 rounded-xl">
+    <section className="fixed z-20 w-full px-4 pt-4 lg:pl-80 lg:pr-6">
+      <header className="glass">
         <Profile />
       </header>
     </section>

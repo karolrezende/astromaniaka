@@ -6,6 +6,7 @@ import Popup from "@/components/common/Popup/Popup";
 import { postType } from "@/types/post.types";
 import Post from "./Post/Post";
 import AstronomersRegister from "./Astronomers/AstronomersRegister";
+import { Inbox } from "lucide-react";
 
 const AdminBody = () => {
   const { token } = useAuth();
@@ -14,7 +15,6 @@ const AdminBody = () => {
   const [popupMessage, setPopupMessage] = useState("Algo deu errado");
 
   const [tab, setTab] = useState(1);
-  const [tabCadastro, setTabCadastro] = useState(1);
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -28,50 +28,48 @@ const AdminBody = () => {
     fetchPosts();
   }, [token]);
 
+  const tabClass = (active: boolean) =>
+    `flex-1 rounded-lg px-4 py-2 text-sm font-medium transition ${
+      active
+        ? "bg-gradient-accent text-white shadow-glow"
+        : "text-slate-400 hover:text-white"
+    }`;
+
   return (
-    <section className="lg:ml-[19rem] min-h-screen pt-32 flex justify-center">
-      <div className="mx-4  rounded-lg w-full flex flex-col overflow-y-auto h-[calc(100vh-8rem)] gap-2">
-        <h1 className="text-3xl bg-gray-100 text-gray-700 uppercase font-medium mr-3 rounded-md px-4 py-2">
-          Painel administrativo
-        </h1>
-        <div className="flex w-full">
-          <button
-            onClick={() => setTab(1)}
-            className="border-b-2 border-gray-200 text-center w-full text-gray-200  uppercase font-medium mr-3 rounded-md px-4 py-2"
-          >
-            Posts
+    <section className="page">
+      <div className="page-inner">
+        <header>
+          <h1 className="page-title">Painel administrativo</h1>
+          <p className="page-subtitle">
+            Modere publicações e cadastre novos astrônomos.
+          </p>
+        </header>
+        <div className="glass flex gap-1 p-1">
+          <button onClick={() => setTab(1)} className={tabClass(tab === 1)}>
+            Posts pendentes
+            {posts.length > 0 && (
+              <span className="ml-2 rounded-full bg-white/20 px-2 py-0.5 text-[11px]">
+                {posts.length}
+              </span>
+            )}
           </button>
-          <button
-            onClick={() => setTab(2)}
-            className="border-b-2 border-gray-200 text-center w-full text-gray-200  uppercase font-medium mr-3 rounded-md px-4 py-2"
-          >
-            Cadastro
+          <button onClick={() => setTab(2)} className={tabClass(tab === 2)}>
+            Cadastrar astrônomo
           </button>
         </div>
         {tab === 1 && (
-          <div>
+          <div className="flex flex-col gap-3">
             {posts.length > 0 ? (
               posts.map((post) => <Post post={post} key={post.id} />)
             ) : (
-              <p className="text-center text-gray-500 mt-6 text-lg">
-                Nenhum post foi encontrado
-              </p>
+              <div className="glass flex flex-col items-center gap-3 px-6 py-14 text-center">
+                <Inbox size={36} className="text-nebula-300" />
+                <p className="text-slate-300">Nenhum post aguardando aprovação</p>
+              </div>
             )}
           </div>
         )}
-        {tab === 2 && (
-          <div>
-            <div className="w-full flex">
-              <button
-                onClick={() => setTabCadastro(1)}
-                className="bg-gray-300 p-3 rounded-lg uppercase"
-              >
-                Astronomos
-              </button>
-            </div>
-            {tabCadastro == 1 && <AstronomersRegister />}
-          </div>
-        )}
+        {tab === 2 && <AstronomersRegister />}
         {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}
       </div>
     </section>

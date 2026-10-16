@@ -5,7 +5,7 @@ const StarsLayout = ({ children }: { children: React.ReactNode }) => {
         <div id="stars2"></div>
         <div id="stars3"></div>
 
-        <section className='w-screen min-h-screen flex items-center justify-center'>
+        <section className='relative z-10 w-screen min-h-screen flex items-center justify-center'>
             {children}
         </section>
     </main>

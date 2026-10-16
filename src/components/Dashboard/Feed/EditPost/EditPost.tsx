@@ -52,40 +52,40 @@ const EditPost = ({
   return (
     <ModalPostLayout handleModalPost={handleEditPostModal}>
       <div>
-        <h1 className="text-gray-900 text-md font-bold">Editar</h1>
-        <div>
-          <div className="flex flex-col w-full min-w-[500px] text-gray-800 gap-3">
-            <div className="flex flex-col mt-3">
-              <label className="text-xs ml-1" htmlFor="title">
-                Título
-              </label>
-              <input
-                id="title"
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="border-2 rounded-lg p-1 px-2 border-zinc-800"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="text-xs ml-1" htmlFor="description">
-                Descrição
-              </label>
-              <textarea
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="border-2 rounded-lg p-1 px-2 border-zinc-800"
-              />
-            </div>
+        <h1 className="text-lg font-semibold text-white">Editar post</h1>
+        <div className="mt-5 flex w-full flex-col gap-4">
+          <div>
+            <label className="field-label" htmlFor="title">
+              Título
+            </label>
+            <input
+              id="title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="field"
+            />
           </div>
-          <Button
-            className="px-2 w-full mt-4"
-            disabled={isLoading}
-            onClick={() => handleEditPost()}
-          >
-            {isLoading ? "Editando..." : "Confirmar"}
+
+          <div>
+            <label className="field-label" htmlFor="description">
+              Descrição
+            </label>
+            <textarea
+              id="description"
+              rows={5}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="field resize-none"
+            />
+          </div>
+        </div>
+        <div className="mt-6 grid grid-cols-2 gap-3">
+          <button type="button" className="btn-secondary" onClick={handleEditPostModal}>
+            Cancelar
+          </button>
+          <Button disabled={isLoading} onClick={() => handleEditPost()}>
+            {isLoading ? "Salvando..." : "Salvar"}
           </Button>
         </div>
       </div>

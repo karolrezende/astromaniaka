@@ -1,17 +1,24 @@
 import { X } from "lucide-react";
 import logo from '@/assets/brand/logo.svg'
 import SidebarBody from "./SidebarBody/SidebarBody";
+import { createPortal } from "react-dom";
 const SidebarMobile = ({ handleOpen }: { handleOpen: (state: boolean) => void }) => {
-  return (
-    <div className="absolute flex lg:hidden z-20 w-screen bg-black/50 top-0 left-0">
-      <section className="flex flex-col w-72 rounded-xl bg-slate-800 min-h-screen">
-        <header className="w-full flex flex-col">
-          <X className="text-white cursor-pointer self-end m-6" onClick={() => handleOpen(false)} />
-          <img src={logo} className="mx-6"/>
+  return createPortal(
+    <div
+      className="fixed left-0 top-0 z-40 flex h-screen w-screen bg-space-950/70 backdrop-blur-sm lg:hidden"
+      onClick={(e) => e.target === e.currentTarget && handleOpen(false)}
+    >
+      <section className="glass-strong m-3 flex w-72 animate-fade-in flex-col">
+        <header className="flex w-full items-center justify-between border-b border-white/[0.06] px-5 py-5">
+          <img src={logo} alt="Astromaniaka" className="w-44" />
+          <button type="button" aria-label="Fechar menu" className="icon-btn" onClick={() => handleOpen(false)}>
+            <X size={18} />
+          </button>
         </header>
         <SidebarBody />
       </section>
-    </div>
+    </div>,
+    document.body
   );
 }
 

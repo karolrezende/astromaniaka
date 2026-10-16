@@ -1,23 +1,121 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-* {
-  margin: 0;
-  padding: 0;
-  font-family: "Montserrat", sans-serif;
-  box-sizing: border-box;
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-space-950 font-sans text-slate-200 antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display tracking-tight;
+  }
+
+  ::selection {
+    @apply bg-nebula-500/40 text-white;
+  }
+
+  /* Scrollbar discreta */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(167, 139, 250, 0.25) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(167, 139, 250, 0.25);
+    border-radius: 999px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(100%);
+    opacity: 0.6;
+    cursor: pointer;
+  }
+
+  select option {
+    @apply bg-space-850 text-slate-200;
+  }
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(100%);
-}
+@layer components {
+  /* Superfícies */
+  .glass {
+    @apply rounded-2xl border border-white/[0.08] bg-space-850/60 shadow-card backdrop-blur-xl;
+  }
+  .glass-strong {
+    @apply rounded-2xl border border-white/10 bg-space-850/90 shadow-card backdrop-blur-2xl;
+  }
+  .surface {
+    @apply rounded-xl border border-white/[0.06] bg-white/[0.03];
+  }
 
-input[type="date"]::-moz-calendar-picker-indicator {
-  filter: invert(100%);
-}
+  /* Estrutura das páginas autenticadas */
+  .page {
+    @apply flex min-h-screen justify-center px-4 pt-28 lg:ml-72 lg:pl-6 lg:pr-6;
+  }
+  .page-inner {
+    @apply mx-auto flex h-[calc(100vh-7.5rem)] w-full max-w-4xl flex-col gap-6 overflow-y-auto pb-10 pr-1;
+  }
+  .page-title {
+    @apply font-display text-2xl font-semibold text-white md:text-3xl;
+  }
+  .page-subtitle {
+    @apply mt-1 text-sm text-slate-400;
+  }
 
-input[type="date"]::-ms-expand {
-  filter: invert(100%);
+  /* Botões */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-nebula-400/60 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-gradient-accent text-white shadow-glow hover:brightness-110 active:brightness-95;
+  }
+  .btn-secondary {
+    @apply btn border border-white/10 bg-white/[0.06] text-slate-100 hover:bg-white/[0.1];
+  }
+  .btn-ghost {
+    @apply btn text-slate-300 hover:bg-white/[0.06] hover:text-white;
+  }
+  .btn-danger {
+    @apply btn border border-rose-500/30 bg-rose-500/15 text-rose-200 hover:bg-rose-500/25;
+  }
+  .btn-success {
+    @apply btn border border-emerald-500/30 bg-emerald-500/15 text-emerald-200 hover:bg-emerald-500/25;
+  }
+  .icon-btn {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 transition hover:bg-white/[0.08] hover:text-white;
+  }
+
+  /* Formulários */
+  .field-label {
+    @apply mb-1.5 block text-xs font-medium uppercase tracking-wider text-slate-400;
+  }
+  .field {
+    @apply w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-nebula-400/60 focus:bg-white/[0.06] focus:ring-4 focus:ring-nebula-500/15;
+  }
+  .field-error {
+    @apply mt-1 min-h-[1.25rem] text-xs text-rose-300;
+  }
+
+  /* Etiquetas */
+  .chip {
+    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider;
+  }
+
+  .link {
+    @apply font-medium text-nebula-300 transition hover:text-stardust-400;
+  }
 }

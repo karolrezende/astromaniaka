@@ -1,5 +1,5 @@
 import jupiter from "@/assets/design/jupiter.png";
-import slogan from "@/assets/brand/slogan.svg";
+import logo from "@/assets/brand/logo.svg";
 
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +20,7 @@ const Login = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<userLogin>({
     resolver: zodResolver(userLoginSchema),
   });
@@ -41,15 +41,18 @@ const Login = () => {
   };
   return (
     <StarsLayout>
-      <div className="bg-white w-full mx-6 rounded-3xl lg:w-[70vw] xl:w-[60vw] h-[70vh] flex items-center justify-between p-10 md:p-16 lg:gap-8">
-        <div className="w-full flex justify-center flex-col">
-          <img src={slogan} alt="Slogan Astromaniaka" />
-          <h1 className="text-blue-700 font-bold text-md my-3 mb-5 uppercase">
-            Bem-vinda(o) de volta!
+      <div className="glass mx-4 my-8 grid w-full max-w-5xl animate-fade-in overflow-hidden lg:grid-cols-2">
+        <div className="flex flex-col justify-center p-8 sm:p-12">
+          <img src={logo} alt="Astromaniaka" className="w-56" />
+          <h1 className="mt-10 text-3xl font-semibold text-white">
+            Bem-vinda(o) de volta
           </h1>
+          <p className="mt-2 text-sm text-slate-400">
+            Entre para continuar explorando o universo com a comunidade.
+          </p>
           <form
             onSubmit={handleSubmit(handleData)}
-            className="flex flex-col my-2"
+            className="mt-8 flex flex-col gap-1"
           >
             <Input
               label="E-mail"
@@ -57,7 +60,7 @@ const Login = () => {
               register={register}
               type="text"
               errors={errors.email?.message}
-              placeholder="Digite seu email..."
+              placeholder="voce@exemplo.com"
             />
             <Input
               name="password"
@@ -65,22 +68,29 @@ const Login = () => {
               type="password"
               errors={errors.password?.message}
               register={register}
-              placeholder="Digite sua senha..."
+              placeholder="Sua senha"
             />
-            <span className="self-end text-sm hover:font-medium">
-              <Link to={"/password"}>Esqueci minha senha</Link>
-            </span>
-            <Button>Entrar</Button>
+            <Link to={"/password"} className="link -mt-1 self-end text-xs">
+              Esqueci minha senha
+            </Link>
+            <Button className="mt-4 w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Entrando..." : "Entrar"}
+            </Button>
           </form>
-          <span className="">
+          <p className="mt-6 text-center text-sm text-slate-400">
             Ainda não possui uma conta?{" "}
-            <span className="font-bold text-sm hover:font-extrabold">
-              <Link to={"/register"}>Cadastre-se</Link>
-            </span>
-          </span>
+            <Link to={"/register"} className="link">
+              Cadastre-se
+            </Link>
+          </p>
         </div>
-        <div className="w-full hidden lg:flex">
-          <img src={jupiter} alt="Imagem de júpiter" />
+        <div className="relative hidden items-center justify-center overflow-hidden border-l border-white/[0.06] bg-gradient-to-br from-nebula-600/20 via-transparent to-stardust-600/10 p-12 lg:flex">
+          <div className="absolute h-80 w-80 rounded-full bg-nebula-500/30 blur-3xl" />
+          <img
+            src={jupiter}
+            alt="Imagem de Júpiter"
+            className="relative w-full max-w-sm drop-shadow-[0_0_60px_rgba(139,92,246,0.35)]"
+          />
         </div>
       </div>
     </StarsLayout>

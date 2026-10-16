@@ -23,7 +23,7 @@ const ModalNewHistory = ({
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPostBody((prevState) => ({
       ...prevState,
       title: event.target.value,
@@ -71,23 +71,40 @@ const ModalNewHistory = ({
 
   return (
     <ModalPostLayout handleModalPost={handleModalHistory}>
-      <div className="min-w-[50vw]">
-        <h1 className="text-lg font-bold">Postar novo fato histórico?</h1>
-        <div className="flex flex-col mt-2">
-          <textarea
-            className="rounded-xl h-8 flex items-center resize-none placeholder:text-md placeholder:font-medium outline-none font-bold text-lg"
-            placeholder="Título"
-            onChange={handleTitleChange}
-          />
-          <textarea
-            ref={inputRef}
-            value={postBody.description}
-            onChange={handleDescriptionChange}
-            className="rounded-xl resize-none placeholder:text-base outline-none"
-            placeholder="Deixe suas ideias brilharem como estrelas ☆"
-          ></textarea>
+      <div>
+        <h1 className="text-lg font-semibold text-white">Novo fato histórico</h1>
+        <p className="mt-1 text-sm text-slate-400">
+          Ele aparecerá na linha do tempo para toda a comunidade.
+        </p>
+        <div className="mt-5 flex flex-col gap-4">
+          <div>
+            <label className="field-label" htmlFor="new-history-title">
+              Título
+            </label>
+            <input
+              id="new-history-title"
+              className="field"
+              placeholder="Ex.: Lançamento do Sputnik 1"
+              value={postBody.title}
+              onChange={handleTitleChange}
+            />
+          </div>
+          <div>
+            <label className="field-label" htmlFor="new-history-description">
+              Descrição
+            </label>
+            <textarea
+              id="new-history-description"
+              ref={inputRef}
+              rows={5}
+              value={postBody.description}
+              onChange={handleDescriptionChange}
+              className="field resize-none"
+              placeholder="Deixe suas ideias brilharem como estrelas ☆"
+            ></textarea>
+          </div>
 
-          <Button onClick={handleCreateHistory}>Enviar</Button>
+          <Button onClick={handleCreateHistory}>Publicar</Button>
         </div>
       </div>
       {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}

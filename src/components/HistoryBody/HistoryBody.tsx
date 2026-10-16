@@ -1,7 +1,7 @@
 import { useData } from "@/providers/DataProvider";
 import Button from "../common/Button/Button";
 import { Access_Level_enum } from "@/utils/enums";
-import { Plus } from "lucide-react";
+import { BookOpen, Plus } from "lucide-react";
 import ModalNewHistory from "./ModalNewHistory/NewHistory";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/providers/AuthProvider";
@@ -30,27 +30,34 @@ const HistoryBody = () => {
   }, [token]);
 
   return (
-    <section className="lg:ml-[19rem] min-h-screen pt-32 flex justify-center">
-      <div className="mx-4 lg:mx-4 rounded-lg w-full flex flex-col overflow-y-auto h-[calc(100vh-8rem)]">
-        {userData?.access_level == Access_Level_enum.ADMIN && (
-          <Button
-            className="bg-white  hover:bg-white/90 w-[20%] self-end flex items-center justify-center gap-1"
-            style={{ color: "rgb(16 11 31 / var(--tw-bg-opacity))" }}
-            onClick={() => handleModalHistory()}
-          >
-            <Plus size="16" />
-            Novo
-          </Button>
-        )}
-        <div className="grid gap-2 grid-flow-col">
-          {allHistory && allHistory.length > 0 ? (
-            allHistory.map((history, index) => (
-              <History key={index} history={history} />
-            ))
-          ) : (
-            <p className="text-gray-200/50">Ainda sem posts..</p>
+    <section className="page">
+      <div className="page-inner">
+        <header className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 className="page-title">Astronomia e história</h1>
+            <p className="page-subtitle">
+              Marcos que mudaram a forma como olhamos para o céu.
+            </p>
+          </div>
+          {userData?.access_level == Access_Level_enum.ADMIN && (
+            <Button onClick={() => handleModalHistory()}>
+              <Plus size={16} />
+              Novo fato
+            </Button>
           )}
-        </div>
+        </header>
+        {allHistory && allHistory.length > 0 ? (
+          <ol className="relative ml-3 flex flex-col gap-5 border-l border-white/10 pl-8">
+            {allHistory.map((history, index) => (
+              <History key={index} history={history} />
+            ))}
+          </ol>
+        ) : (
+          <div className="glass flex flex-col items-center gap-3 px-6 py-14 text-center">
+            <BookOpen size={36} className="text-nebula-300" />
+            <p className="text-slate-300">Ainda sem fatos históricos.</p>
+          </div>
+        )}
       </div>
       {isModal && <ModalNewHistory handleModalHistory={handleModalHistory} />}
     </section>

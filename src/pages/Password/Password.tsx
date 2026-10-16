@@ -2,8 +2,9 @@ import Button from "@/components/common/Button/Button";
 import Popup from "@/components/common/Popup/Popup";
 import StarsLayout from "@/layout/StarsLayout/StarsLayout";
 import { editPassword } from "@/services/user.services";
-import { Pencil } from "lucide-react";
+import { KeyRound } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Password = () => {
   const [passwordData, setPasswordData] = useState({
@@ -28,6 +29,7 @@ const Password = () => {
     ) {
       setPopupMessage("Preencha todos os campos");
       setPopup(true);
+      setIsLoading(false);
       return;
     }
     try {
@@ -45,92 +47,59 @@ const Password = () => {
     setIsLoading(false);
   };
 
+  const fields: {
+    id: keyof typeof passwordData;
+    label: string;
+    type: string;
+    placeholder: string;
+  }[] = [
+    { id: "email", label: "E-mail", type: "email", placeholder: "voce@exemplo.com" },
+    { id: "password", label: "Nova senha", type: "password", placeholder: "Digite a nova senha" },
+    { id: "confirmPassword", label: "Repetir senha", type: "password", placeholder: "Repita a nova senha" },
+  ];
+
   return (
     <StarsLayout>
-      <div className="mx-4 lg:mx-4 rounded-lg w-full flex flex-col overflow-y-auto h-[calc(100vh-8rem)] items-center justify-center">
-        <div className="bg-white p-10 rounded-2xl">
-          <header>
-            <h1 className="text-2xl">Alterar senha</h1>
-          </header>
-          <div>
-            <div className="flex flex-col mt-2">
-              <label className="text-xs ml-1" htmlFor="email">
-                Email
+      <div className="glass mx-4 w-full max-w-md animate-fade-in p-8 sm:p-10">
+        <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-accent text-white shadow-glow">
+          <KeyRound size={22} />
+        </span>
+        <h1 className="mt-6 text-2xl font-semibold text-white">Alterar senha</h1>
+        <p className="mt-1 text-sm text-slate-400">
+          Informe seu e-mail e escolha uma nova senha.
+        </p>
+        <div className="mt-8 flex flex-col gap-4">
+          {fields.map((field) => (
+            <div key={field.id}>
+              <label className="field-label" htmlFor={field.id}>
+                {field.label}
               </label>
-              <div className="flex border-2 rounded-2xl items-center px-2 py-1 border-zinc-700">
-                <input
-                  id="email"
-                  placeholder="Digite estrelinha..."
-                  value={passwordData.email}
-                  onChange={(e) =>
-                    setPasswordData((prev) => ({
-                      ...prev,
-                      email: e.target.value,
-                    }))
-                  }
-                  className="rounded-lg p-1 px-2 outline-none"
-                />
-                <Pencil className="cursor-pointer" />
-              </div>
+              <input
+                id={field.id}
+                type={field.type}
+                placeholder={field.placeholder}
+                value={passwordData[field.id]}
+                onChange={(e) =>
+                  setPasswordData((prev) => ({
+                    ...prev,
+                    [field.id]: e.target.value,
+                  }))
+                }
+                className="field"
+              />
             </div>
-
-            <div className="flex flex-col mt-2">
-              <label className="text-xs ml-1" htmlFor="password">
-                Senha
-              </label>
-              <div className="flex border-2 rounded-2xl items-center px-2 py-1 border-zinc-700">
-                <input
-                  id="password"
-                  placeholder="Aqui também!"
-                  value={passwordData.password}
-                  onChange={(e) =>
-                    setPasswordData((prev) => ({
-                      ...prev,
-                      password: e.target.value,
-                    }))
-                  }
-                  className="rounded-lg p-1 px-2 outline-none"
-                />
-                <Pencil className="cursor-pointer" />
-              </div>
-            </div>
-
-            <div className="flex flex-col mt-2">
-              <label className="text-xs ml-1" htmlFor="confirmPassword">
-                Repetir Senha
-              </label>
-              <div className="flex border-2 rounded-2xl items-center px-2 py-1 border-zinc-700">
-                <input
-                  id="confirmPassword"
-                  value={passwordData.confirmPassword}
-                  placeholder="E aqui também!"
-                  onChange={(e) =>
-                    setPasswordData((prev) => ({
-                      ...prev,
-                      confirmPassword: e.target.value,
-                    }))
-                  }
-                  className="rounded-lg p-1 px-2 outline-none"
-                />
-                <Pencil className="cursor-pointer" />
-              </div>
-            </div>
-          </div>
-
-          <Button className="px-2 w-full mt-4" onClick={handleEditPost}>
-            {isLoading ? "Aguarde..." : "Editar perfil"}
-          </Button>
-          <p className="text-center text-xs mt-2">
-            ou
-            <br />
-            <span
-              className="text-sm mt-1 cursor-pointer"
-              onClick={() => (window.location.href = "/")}
-            >
-              Voltar
-            </span>
-          </p>
+          ))}
         </div>
+
+        <Button className="mt-8 w-full" onClick={handleEditPost} disabled={isLoading}>
+          {isLoading ? "Aguarde..." : "Alterar senha"}
+        </Button>
+        <p className="mt-6 text-center text-sm text-slate-400">
+          Lembrou?{" "}
+          <Link to={"/login"} className="link">
+            Voltar para o login
+          </Link>
+        </p>
 
         {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}
       </div>

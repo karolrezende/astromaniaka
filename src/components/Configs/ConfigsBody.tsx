@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useData } from "@/providers/DataProvider";
 import { editUser } from "@/services/user.services";
 import Popup from "../common/Popup/Popup";
-import { Pencil } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 import DeleteUser from "./DeleteUser";
 
 const ConfigsBody = () => {
@@ -53,7 +53,11 @@ const ConfigsBody = () => {
   };
 
   if (!userData) {
-    return <div>Carregando...</div>;
+    return (
+      <section className="page">
+        <p className="text-slate-400">Carregando...</p>
+      </section>
+    );
   }
 
   const handleDeleteUser = () => {
@@ -61,66 +65,68 @@ const ConfigsBody = () => {
   };
 
   return (
-    <section className="lg:ml-[19rem] min-h-screen pt-32 flex justify-center">
-      <div className="mx-4 lg:mx-4 rounded-lg w-full flex flex-col overflow-y-auto h-[calc(100vh-8rem)] items-center justify-center">
-        <div className="bg-white p-10 rounded-2xl">
-          <div className="">
-            <header>
-              <h1 className="text-2xl">Meu perfil</h1>
-            </header>
+    <section className="page">
+      <div className="page-inner max-w-2xl">
+        <header>
+          <h1 className="page-title">Configurações</h1>
+          <p className="page-subtitle">Atualize suas informações de perfil.</p>
+        </header>
+        <div className="glass p-6 sm:p-8">
+          <div className="flex flex-col gap-4">
             <div>
-              <div className="flex flex-col mt-2">
-                <label className="text-xs ml-1" htmlFor="name">
-                  Nome
-                </label>
-                <div className="flex border-2 rounded-2xl items-center px-2 py-1 border-zinc-700">
-                  <input
-                    id="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className=" rounded-lg p-1 px-2 outline-none "
-                  />
-                  <Pencil className="cursor-pointer" />
-                </div>
-              </div>
-              <div className="flex flex-col mt-2">
-                <label className="text-xs ml-1" htmlFor="email">
-                  Email
-                </label>
-                <div className="flex border-2 rounded-2xl items-center px-2 py-1 border-zinc-700">
-                  <input
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className=" rounded-lg p-1 px-2 outline-none "
-                  />
-                  <Pencil className="cursor-pointer" />
-                </div>
-              </div>
-              <div className="flex flex-col mt-2">
-                <label className="text-xs ml-1" htmlFor="email">
-                  Descrição
-                </label>
-                <div className="flex border-2 rounded-2xl items-center px-2 py-1 border-zinc-700">
-                  <textarea
-                    id="description"
-                    placeholder="Digite algo"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    className=" rounded-lg p-1 px-2 outline-none "
-                  />
-                  <Pencil className="cursor-pointer" />
-                </div>
+              <label className="field-label" htmlFor="name">
+                Nome
+              </label>
+              <input
+                id="name"
+                value={name ?? ""}
+                onChange={(e) => setName(e.target.value)}
+                className="field"
+              />
+            </div>
+            <div>
+              <label className="field-label" htmlFor="email">
+                E-mail
+              </label>
+              <input
+                id="email"
+                value={email ?? ""}
+                onChange={(e) => setEmail(e.target.value)}
+                className="field"
+              />
+            </div>
+            <div>
+              <label className="field-label" htmlFor="description">
+                Sobre mim
+              </label>
+              <textarea
+                id="description"
+                rows={4}
+                placeholder="Conte um pouco sobre sua relação com o céu"
+                value={description ?? ""}
+                onChange={(e) => setDescription(e.target.value)}
+                className="field resize-none"
+              />
+            </div>
+          </div>
+
+          <Button className="mt-6 w-full sm:w-auto" onClick={handleEditUser} disabled={isLoading}>
+            {isLoading ? "Salvando..." : "Salvar alterações"}
+          </Button>
+        </div>
+
+        <div className="glass border-rose-500/20 p-6 sm:p-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex gap-3">
+              <TriangleAlert className="mt-0.5 shrink-0 text-rose-300" size={20} />
+              <div>
+                <h2 className="font-semibold text-white">Zona de perigo</h2>
+                <p className="text-sm text-slate-400">
+                  Excluir o perfil é permanente e não pode ser desfeito.
+                </p>
               </div>
             </div>
-
-            <Button className="px-2 w-full mt-4" onClick={handleEditUser}>
-              {isLoading ? "Aguarde..." : "Editar perfil"}
-            </Button>
-            <Button
-              className="px-2 w-full mt-2 bg-red-600 hover:bg-red-700 bg-red-500 "
-              onClick={handleDeleteUser}
-            >
+            <Button variant="danger" className="shrink-0" onClick={handleDeleteUser}>
               Excluir perfil
             </Button>
           </div>

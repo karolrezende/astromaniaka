@@ -5,6 +5,7 @@ import { useAuth } from "@/providers/AuthProvider";
 import { useData } from "@/providers/DataProvider";
 import Popup from "../common/Popup/Popup";
 import { useState } from "react";
+import { TriangleAlert } from "lucide-react";
 
 const DeleteUser = ({ handleDeleteUser }: { handleDeleteUser: () => void }) => {
   const { token, signout } = useAuth();
@@ -31,13 +32,24 @@ const DeleteUser = ({ handleDeleteUser }: { handleDeleteUser: () => void }) => {
 
   return (
     <ModalPostLayout handleModalPost={handleDeleteUser}>
-      <div className="">
-        <h1 className="text-2xl text-red-500 font-bold">ATENÇÃO</h1>
-        <h4 className=" font-bold">DESEJA REALMENTE EXCLUIR SEU PERFIL?</h4>
-        <div>Essa ação é irreversível</div>
-        <Button className="w-full " onClick={handleDelete}>
-          Aceito e quero excluir meu perfil
-        </Button>
+      <div className="flex flex-col items-center text-center">
+        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-rose-500/15 text-rose-300">
+          <TriangleAlert size={22} />
+        </span>
+        <h1 className="mt-4 text-lg font-semibold text-white">
+          Deseja realmente excluir seu perfil?
+        </h1>
+        <p className="mt-1 text-sm text-slate-400">
+          Essa ação é irreversível. Seus dados não poderão ser recuperados.
+        </p>
+        <div className="mt-6 grid w-full gap-3 sm:grid-cols-2">
+          <button type="button" className="btn-secondary" onClick={handleDeleteUser}>
+            Cancelar
+          </button>
+          <Button variant="danger" onClick={handleDelete}>
+            Excluir meu perfil
+          </Button>
+        </div>
       </div>
       {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}
     </ModalPostLayout>

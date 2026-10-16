@@ -5,6 +5,7 @@ import { useAuth } from "@/providers/AuthProvider";
 import { useState } from "react";
 import Popup from "@/components/common/Popup/Popup";
 import { postType } from "@/types/post.types";
+import { Trash2 } from "lucide-react";
 
 const DeletePost = ({
   handleDeletePostModal,
@@ -41,14 +42,21 @@ const DeletePost = ({
 
   return (
     <ModalPostLayout handleModalPost={handleDeletePostModal}>
-      <div>
-        <h1 className="text-gray-900 text-md font-bold">
-          Deseja realmente excluir este post?
+      <div className="flex flex-col items-center text-center">
+        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-rose-500/15 text-rose-300">
+          <Trash2 size={22} />
+        </span>
+        <h1 className="mt-4 text-lg font-semibold text-white">
+          Excluir este post?
         </h1>
-        <h4 className="text-gray-700 text-center mt-2">"{post.title}"</h4>
-        <div onClick={handleDelete}>
-          <Button className="px-2 w-full mt-4" disabled={isLoading}>
-            {isLoading ? "Excluindo..." : "Confirmar"}
+        <p className="mt-1 text-sm text-slate-400">"{post.title}"</p>
+        <p className="mt-1 text-xs text-slate-500">Essa ação não pode ser desfeita.</p>
+        <div className="mt-6 grid w-full grid-cols-2 gap-3">
+          <button type="button" className="btn-secondary" onClick={handleDeletePostModal}>
+            Cancelar
+          </button>
+          <Button variant="danger" onClick={handleDelete} disabled={isLoading}>
+            {isLoading ? "Excluindo..." : "Excluir"}
           </Button>
         </div>
       </div>

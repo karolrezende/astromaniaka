@@ -1,7 +1,10 @@
 import Button from "@/components/common/Button/Button";
+import ProfilePic from "@/components/common/ProfilePic/ProfilePic";
 import DeletePost from "@/components/Dashboard/Feed/DeletePost/DeletePost";
 import { postType } from "@/types/post.types";
-import { getInitials } from "@/utils/getInitials";
+import { formatDate } from "@/utils/formatDate";
+import { getPostTypeMeta } from "@/utils/postTypes";
+import { Check, X } from "lucide-react";
 import { useState } from "react";
 import PostAcceptModal from "./PostAcceptModal";
 
@@ -17,33 +20,37 @@ const Post = ({ post }: { post: postType }) => {
     setModalDeletePost(!modalDeletePost);
   };
 
+  const typeMeta = getPostTypeMeta(post.post_type);
+
   return (
-    <div className="border-2 border-gray-500 py-2 mr-3 rounded-lg">
-      <div className="px-4 flex justify-between items-center">
-        <div className="">
-          <div className="flex items-center gap-3 ">
-            <div className="bg-gray-800 text-white rounded-full p-2 px-4">
-              {getInitials(post.user?.name)}
+    <article className="glass animate-fade-in p-5">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <div className="flex items-center gap-3">
+            <ProfilePic name={post.user?.name} size="sm" />
+            <div>
+              <p className="text-sm font-semibold text-white">{post.user.name}</p>
+              <p className="text-xs text-slate-500">{formatDate(post.createdAt)}</p>
             </div>
-            <h3 className="font-bold text-xl text-white">{post.user.name}</h3>
+            <span className={`chip ${typeMeta.chip}`}>{typeMeta.label}</span>
           </div>
-          <div className="text-white mt-2">
-            <h3 className="font-bold  text-md text-white">{post.title}</h3>
-            <h5>{post.description}</h5>
-          </div>
+          <h3 className="mt-3 text-lg font-semibold text-white">{post.title}</h3>
+          <p className="mt-1 text-sm text-slate-300">{post.description}</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex shrink-0 gap-2">
           <Button
-            className={"px-2 bg-green-800 font-medium hover:bg-green-800/80"}
+            variant="success"
             onClick={() => (handleAcceptPostModal(), setPostSelected(post))}
           >
-            Aceitar
+            <Check size={16} />
+            Aprovar
           </Button>
           <Button
-            className={"px-2 bg-red-800 font-medium hover:bg-red-800/80"}
+            variant="danger"
             onClick={() => (handleDeletePostModal(), setPostSelected(post))}
           >
-            Excluir
+            <X size={16} />
+            Recusar
           </Button>
         </div>
       </div>
@@ -60,7 +67,7 @@ const Post = ({ post }: { post: postType }) => {
           post={postSelected!}
         />
       )}
-    </div>
+    </article>
   );
 };
 

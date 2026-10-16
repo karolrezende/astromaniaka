@@ -1,4 +1,3 @@
-import Uploader from "@/components/common/Uploader/Uploader";
 import Header from "@/components/common/Header/Header";
 import Sidebar from "@/components/common/Sidebar/Sidebar";
 import AuthGuard from "@/guards/AuthGuard";
@@ -8,7 +7,6 @@ import AdminBody from "@/components/Admin/AdminBody";
 const Admin = () => {
   return (
     <>
-      {/* <Uploader /> */}
       <AuthGuard>
         <StarsLayout>
           <main className="min-h-screen min-w-full">

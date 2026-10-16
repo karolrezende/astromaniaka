@@ -1,6 +1,6 @@
 import ProfilePic from "@/components/common/ProfilePic/ProfilePic";
 import { useData } from "@/providers/DataProvider";
-import { Pen } from "lucide-react";
+import { PenLine } from "lucide-react";
 import { useState } from "react";
 import ModalPost from "./ModalPost";
 
@@ -13,19 +13,22 @@ const CreatePost = () => {
   };
 
   return (
-    <section className="flex items-center p-4 h-[100px] gap-3">
+    <section className="glass flex items-center gap-4 p-4">
       <ProfilePic name={userData?.name} />
-      <div
+      <button
+        type="button"
         onClick={() => handleModalPost()}
-        className="flex text-sm lg:text-md justify-between bg-gray-800 w-full rounded-3xl p-2 lg:py-4 text-white/40 hover:text-white/90 
-            cursor-pointer font-bold px-6 md:py-6 items-center"
+        className="group flex w-full items-center justify-between gap-3 rounded-xl border border-white/[0.06] bg-white/[0.03] px-5 py-3.5 text-left text-sm text-slate-400 transition hover:border-nebula-400/30 hover:bg-white/[0.06] hover:text-slate-200"
       >
-        <p>
+        <span>
           Que supernovas estão explodindo em sua mente hoje,{" "}
-          {userData ? userData.name : "Astromaniako"}?
-        </p>
-        <Pen className="hidden md:flex" />
-      </div>
+          {userData ? userData.name.split(" ")[0] : "Astromaniako"}?
+        </span>
+        <PenLine
+          size={18}
+          className="hidden shrink-0 text-nebula-300 transition group-hover:text-stardust-400 md:block"
+        />
+      </button>
 
       {isModal && <ModalPost handleModalPost={handleModalPost} />}
     </section>

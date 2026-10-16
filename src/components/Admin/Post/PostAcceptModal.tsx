@@ -5,6 +5,7 @@ import { useState } from "react";
 import Popup from "@/components/common/Popup/Popup";
 import { postType } from "@/types/post.types";
 import { acceptPost } from "@/services/post.services";
+import { Check } from "lucide-react";
 
 const PostAcceptModal = ({
   handleAcceptPostModal,
@@ -40,14 +41,21 @@ const PostAcceptModal = ({
 
   return (
     <ModalPostLayout handleModalPost={handleAcceptPostModal}>
-      <div>
-        <h1 className="text-gray-900 text-md font-bold">
-          Deseja realmente aceitar este post?
+      <div className="flex flex-col items-center text-center">
+        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-300">
+          <Check size={22} />
+        </span>
+        <h1 className="mt-4 text-lg font-semibold text-white">
+          Aprovar este post?
         </h1>
-        <h4 className="text-gray-700 text-center mt-2">"{post.title}"</h4>
-        <div onClick={handleAcceptPost}>
-          <Button className="px-2 w-full mt-4" disabled={isLoading}>
-            {isLoading ? "Carregando..." : "Confirmar"}
+        <p className="mt-1 text-sm text-slate-400">"{post.title}"</p>
+        <p className="mt-1 text-xs text-slate-500">Ele passará a aparecer no feed.</p>
+        <div className="mt-6 grid w-full grid-cols-2 gap-3">
+          <button type="button" className="btn-secondary" onClick={handleAcceptPostModal}>
+            Cancelar
+          </button>
+          <Button variant="success" onClick={handleAcceptPost} disabled={isLoading}>
+            {isLoading ? "Aprovando..." : "Aprovar"}
           </Button>
         </div>
       </div>

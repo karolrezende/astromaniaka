@@ -49,20 +49,39 @@ const ModalEditHistory = ({
 
   return (
     <ModalPostLayout handleModalPost={handleEditHistoryModal}>
-      <div className="min-w-[700px] flex flex-col ">
-        <h1 className="text-xl font-bold">Editar</h1>
-        <textarea
-          className="text-md font-bold mt-2"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        >
-          {history.title}
-        </textarea>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        ></textarea>
-        <Button onClick={() => handleEditPost()}>Editar</Button>
+      <div className="flex flex-col">
+        <h1 className="text-lg font-semibold text-white">Editar fato histórico</h1>
+        <div className="mt-5 flex flex-col gap-4">
+          <div>
+            <label className="field-label" htmlFor="history-title">
+              Título
+            </label>
+            <input
+              id="history-title"
+              className="field"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="field-label" htmlFor="history-description">
+              Descrição
+            </label>
+            <textarea
+              id="history-description"
+              rows={5}
+              className="field resize-none"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            ></textarea>
+          </div>
+        </div>
+        <div className="mt-6 grid grid-cols-2 gap-3">
+          <button type="button" className="btn-secondary" onClick={handleEditHistoryModal}>
+            Cancelar
+          </button>
+          <Button onClick={() => handleEditPost()}>Salvar</Button>
+        </div>
       </div>
 
       {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}

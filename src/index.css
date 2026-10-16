@@ -69,6 +69,10 @@
   .page-inner {
     @apply mx-auto flex h-[calc(100vh-7.5rem)] w-full max-w-4xl flex-col gap-6 overflow-y-auto pb-10 pr-1;
   }
+  /* Sem isso, cards com overflow-hidden encolhem quando o conteúdo passa da altura */
+  .page-inner > * {
+    @apply shrink-0;
+  }
   .page-title {
     @apply font-display text-2xl font-semibold text-white md:text-3xl;
   }

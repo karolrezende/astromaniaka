@@ -15,9 +15,9 @@ const AuthGuard = ({children}:{children: React.ReactNode}) => {
                     {demoError ? (
                         <>
                             <SatelliteDish className="text-nebula-300" size={36} />
-                            <h1 className="text-lg font-semibold text-white">Sem sinal da API</h1>
+                            <h1 className="text-lg font-semibold text-white">Não foi possível entrar</h1>
                             <p className="text-sm text-slate-400">
-                                Não foi possível entrar na demonstração. Confira se o Astroserver e o banco estão rodando.
+                                A demonstração não conseguiu iniciar. Se estiver usando a API real (VITE_DEMO_API=real), confira se o Astroserver e o banco estão rodando.
                             </p>
                             <button type="button" className="btn-primary" onClick={retryDemo}>
                                 Tentar de novo

@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { useData } from "@/providers/DataProvider";
 import { editUser } from "@/services/user.services";
 import Popup from "../common/Popup/Popup";
-import { KeyRound, TriangleAlert } from "lucide-react";
+import { KeyRound, Sparkles, TriangleAlert } from "lucide-react";
+import { isDemoAccount } from "@/environments/demo";
 import { Link } from "react-router-dom";
 import DeleteUser from "./DeleteUser";
 
@@ -22,6 +23,8 @@ const ConfigsBody = () => {
   const [description, setDescription] = useState(userData?.description);
 
   const [deleteUser, setDeleteUser] = useState(false);
+  // Contas da demo: e-mail, senha e exclusão travados para a entrada automática continuar funcionando
+  const isLocked = isDemoAccount(userData?.email);
   useEffect(() => {
     if (userData) {
       setName(userData.name);
@@ -92,6 +95,8 @@ const ConfigsBody = () => {
               <input
                 id="email"
                 value={email ?? ""}
+                disabled={isLocked}
+                title={isLocked ? "O e-mail das contas da demonstração não pode ser alterado" : undefined}
                 onChange={(e) => setEmail(e.target.value)}
                 className="field"
               />
@@ -116,6 +121,19 @@ const ConfigsBody = () => {
           </Button>
         </div>
 
+        {isLocked ? (
+          <div className="glass flex gap-3 p-6 sm:p-8">
+            <Sparkles className="mt-0.5 shrink-0 text-nebula-300" size={20} />
+            <div>
+              <h2 className="font-semibold text-white">Conta de demonstração</h2>
+              <p className="text-sm text-slate-400">
+                Nome e descrição podem ser editados à vontade. E-mail, senha e exclusão do
+                perfil ficam desativados para a demonstração continuar funcionando para todos.
+              </p>
+            </div>
+          </div>
+        ) : (
+        <>
         <div className="glass p-6 sm:p-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex gap-3">
@@ -149,6 +167,8 @@ const ConfigsBody = () => {
             </Button>
           </div>
         </div>
+        </>
+        )}
       </div>
       {deleteUser && <DeleteUser handleDeleteUser={handleDeleteUser} />}
       {popup && <Popup message={popupMessage} setMessage={setPopupMessage} />}

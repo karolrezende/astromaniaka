@@ -67,7 +67,7 @@
     @apply flex min-h-screen justify-center px-4 pt-28 lg:ml-72 lg:pl-6 lg:pr-6;
   }
   .page-inner {
-    @apply mx-auto flex h-[calc(100vh-7.5rem)] w-full max-w-4xl flex-col gap-6 overflow-y-auto pb-10 pr-1;
+    @apply mx-auto flex h-[calc(100vh-7.5rem)] w-full max-w-4xl flex-col gap-6 overflow-y-auto pb-24 pr-1 lg:pb-10; /* pb-24: espaço para o seletor da demo no celular */
   }
   /* Sem isso, cards com overflow-hidden encolhem quando o conteúdo passa da altura */
   .page-inner > * {
@@ -108,7 +108,7 @@
     @apply mb-1.5 block text-xs font-medium uppercase tracking-wider text-slate-400;
   }
   .field {
-    @apply w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-nebula-400/60 focus:bg-white/[0.06] focus:ring-4 focus:ring-nebula-500/15;
+    @apply w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-nebula-400/60 focus:bg-white/[0.06] focus:ring-4 focus:ring-nebula-500/15 disabled:cursor-not-allowed disabled:opacity-50;
   }
   .field-error {
     @apply mt-1 min-h-[1.25rem] text-xs text-rose-300;

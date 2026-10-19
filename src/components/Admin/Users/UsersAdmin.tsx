@@ -12,6 +12,7 @@ import {
 } from "@/services/admin.services";
 import { adminUserType } from "@/types/user.types";
 import { formatDate } from "@/utils/formatDate";
+import { isDemoAccount } from "@/environments/demo";
 import {
   Loader2,
   Search,
@@ -119,6 +120,8 @@ const UsersAdmin = () => {
         <ul className="glass divide-y divide-white/[0.06] overflow-hidden">
           {filtered.map((user) => {
             const isSelf = user.id === userData?.id;
+            // Contas usadas pela entrada automática da demo não podem mudar
+            const isDemo = isDemoAccount(user.email);
             const isAdmin = user.access_level === "ADMIN";
             const busy = busyId === user.id;
             return (
@@ -136,6 +139,11 @@ const UsersAdmin = () => {
                           Admin
                         </span>
                       )}
+                      {isDemo && !isSelf && (
+                        <span className="chip border-white/10 bg-white/[0.04] text-slate-400">
+                          Demo
+                        </span>
+                      )}
                       {isSelf && (
                         <span className="chip border-white/10 bg-white/[0.04] text-slate-400">
                           Você
@@ -149,7 +157,7 @@ const UsersAdmin = () => {
                     </p>
                   </div>
                 </div>
-                {!isSelf && (
+                {!isSelf && !isDemo && (
                   <div className="flex shrink-0 gap-2">
                     <button
                       type="button"
